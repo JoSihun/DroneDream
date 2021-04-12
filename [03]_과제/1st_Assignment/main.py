@@ -7,7 +7,7 @@ def exchange(money_krw):
     money_eur = round(float(Decimal(str(EXCHANGE_RATE['EUR'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
     money_jpy = round(float(Decimal(str(EXCHANGE_RATE['JPY'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
     money_cny = round(float(Decimal(str(EXCHANGE_RATE['CNY'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
-    exchanged_money = {'KRW': int(money_krw),
+    exchanged_money = {'KRW': money_krw,
                        'USD': money_usd, 'EUR': money_eur,
                        'JPY': money_jpy, 'CNY': money_cny}
     return exchanged_money
