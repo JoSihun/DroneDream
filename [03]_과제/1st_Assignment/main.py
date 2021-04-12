@@ -12,6 +12,20 @@ def exchange(money_krw):
                        'JPY': money_jpy, 'CNY': money_cny}
     return exchanged_money
 
+def countUSD(money_usd):
+    bills={100:0, 50:0,20:0,10:0,5:0,2:0,1:0}           # 지폐 : 100달러/50달러/20달러/10달러/5달러/2달러/1달러
+    coins={0.25:0,0.1:0,0.05:0,0.01:0}                  # 동전 : 25센트/10센트/5센트/1센트
+    
+    for bill in bills.key():
+        bills[bill]=int(money_usd/bill)
+        money_usd=money_usd%bill
+    for coin in coins.keys():
+        coins[coin]=int(money_usd/coin)
+        money_usd=money_usd%coin
+        
+    return bills, coins
+    
+
 def countEUR(money_eur):
     bills = {500: 0, 200: 0, 100: 0, 50: 0, 20: 0, 10: 0, 5: 0}    # 지폐: 500유로 / 200유로 / 100유로 / 50유로
                                                                                    # 20유로 / 10유로 / 5유로
