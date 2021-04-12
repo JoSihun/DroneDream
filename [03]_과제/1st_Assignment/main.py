@@ -12,6 +12,20 @@ def exchange(money_krw):
                        'JPY': money_jpy, 'CNY': money_cny}
     return exchanged_money
 
+
+def countUSD(money_usd):
+    bills = {100: 0, 50: 0, 20: 0, 10: 0, 5: 0, 2: 0, 1: 0}  # 지폐 : 100달러/50달러/20달러/10달러/5달러/2달러/1달러
+    coins = {0.25: 0, 0.1: 0, 0.05: 0, 0.01: 0}              # 동전 : 25센트/10센트/5센트/1센트
+
+    for bill in bills.keys():
+        bills[bill] = int(money_usd // bill)
+        money_usd = money_usd % bill
+    for coin in coins.keys():
+        coins[coin] = int(money_usd // coin)
+        money_usd = money_usd % coin
+
+    return bills, coins
+
 def countEUR(money_eur):
     bills = {500: 0, 200: 0, 100: 0, 50: 0, 20: 0, 10: 0, 5: 0}    # 지폐: 500유로 / 200유로 / 100유로 / 50유로
                                                                                    # 20유로 / 10유로 / 5유로
@@ -58,6 +72,15 @@ if __name__ == "__main__":
     exchanged_money = exchange(money_krw)
     for key, value in exchanged_money.items():
         print(key, value)
+
+    print(f'\n환전해야하는 달러 권종과 개수:')
+    bills_usd, coins_usd = countUSD(exchanged_money['USD'])
+    for key, value in bills_usd.items():
+        if value != 0:
+            print(f'{key}달러 짜리 지폐: {value}개')
+    for key, value in coins_usd.items():
+        if value != 0:
+            print(f'{int(key * 100)}센트 짜리 동전: {value}개')
 
     print(f'\n환전해야하는 유로 권종과 개수:')
     bills_eur, coins_eur = countEUR(exchanged_money['EUR'])
