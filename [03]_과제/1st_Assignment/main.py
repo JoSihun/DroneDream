@@ -7,7 +7,7 @@ def exchange(money_krw):
     money_eur = round(float(Decimal(str(EXCHANGE_RATE['EUR'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
     money_jpy = round(float(Decimal(str(EXCHANGE_RATE['JPY'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
     money_cny = round(float(Decimal(str(EXCHANGE_RATE['CNY'])) * Decimal(str(money_krw / EXCHANGE_RATE['KRW']))), 2)
-    exchanged_money = {'KRW': money_krw,
+    exchanged_money = {'KRW': int(money_krw),
                        'USD': money_usd, 'EUR': money_eur,
                        'JPY': money_jpy, 'CNY': money_cny}
     return exchanged_money
@@ -16,7 +16,7 @@ def countUSD(money_usd):
     bills={100:0, 50:0,20:0,10:0,5:0,2:0,1:0}           # 지폐 : 100달러/50달러/20달러/10달러/5달러/2달러/1달러
     coins={0.25:0,0.1:0,0.05:0,0.01:0}                  # 동전 : 25센트/10센트/5센트/1센트
     
-    for bill in bills.key():
+    for bill in bills.keys():
         bills[bill]=int(money_usd/bill)
         money_usd=money_usd%bill
     for coin in coins.keys():
@@ -72,6 +72,16 @@ if __name__ == "__main__":
     exchanged_money = exchange(money_krw)
     for key, value in exchanged_money.items():
         print(key, value)
+        
+    print(f'\n환전해야하는 달러 권종과 개수:')
+    bills_usd,coins_usd=countUSD(exchanged_money['USD'])
+    for key,value in bills_usd.items():
+        if value !=0:
+            print(f'{key}달러 짜리 지폐: {value}개')
+    for key,value in coins_usd.items():
+        if value !=0:
+            print(f'{int(key*100)}센트 짜리 동전: {value}개')
+        
 
     print(f'\n환전해야하는 유로 권종과 개수:')
     bills_eur, coins_eur = countEUR(exchanged_money['EUR'])
