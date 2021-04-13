@@ -12,10 +12,9 @@ def exchange(money_krw):
                        'JPY': money_jpy, 'CNY': money_cny}
     return exchanged_money
 
-
-def countUSD(money_usd):
-    bills = {100: 0, 50: 0, 20: 0, 10: 0, 5: 0, 2: 0, 1: 0}  # 지폐 : 100달러/50달러/20달러/10달러/5달러/2달러/1달러
-    coins = {0.25: 0, 0.1: 0, 0.05: 0, 0.01: 0}              # 동전 : 25센트/10센트/5센트/1센트
+    def countUSD(money_usd):
+        bills = {100: 0, 50: 0, 20: 0, 10: 0, 5: 0, 2: 0, 1: 0}  # 지폐 : 100달러 / 50달러 / 20달러 / 10달러 / 5달러 / 2달러 / 1달러
+        coins = {0.5: 0, 0.25: 0, 0.1: 0, 0.05: 0, 0.01: 0}      # 동전 : 50센트 / 25센트 / 10센트 / 5센트 / 1센트
 
     for bill in bills.keys():
         bills[bill] = int(money_usd // bill)
