@@ -9,10 +9,9 @@
 % Hue(색조): Red, Yellow, Green, Cyan, Blue, Magenta를 주요색조로하는 인접한 색조간의 선형조합(=연속적인 색조)
 % Saturation(채도): 해당 색조의 강도(짙고 옅음)
 % Value(명도): 빛의 에너지 강도에 따라 감각적으로 느끼는 "밝기"
-
 FILENAME = "test.png";
 src_rgb = imread(FILENAME);         % src_gray = rgb2gray(src_rgb);
-src_hsv = rgb2hsv(src_rgb);
+src_hsv = rgb2hsv(src_rgb);         % HSV 3차원 배열
 src_h = src_hsv(:, :, 1);           % Hue 채널
 src_s = src_hsv(:, :, 2);           % Saturation 채널
 src_v = src_hsv(:, :, 3);           % Value 채널
@@ -32,6 +31,7 @@ upper_green = [82, 255, 255] / 255;     % 초록색 범위값 정규화
 
 [rows, cols, channels] = size(src_hsv);
 dst_hsv = double(zeros(size(src_hsv)));
+
 dst_h = dst_hsv(:, :, 1);
 dst_s = dst_hsv(:, :, 2);
 dst_v = dst_hsv(:, :, 3);
