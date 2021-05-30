@@ -56,7 +56,9 @@ mid_col = sum_cols / cnt_cols;
 
 dst_rgb = hsv2rgb(dst_hsv);
 dst_bw = im2bw(dst_rgb);
-corners = pgonCorners(dst_bw, 8)
+dst_bw = imfill(dst_bw, 'holes');
+
+corners = pgonCorners(dst_bw, 4);
 imshow(dst_rgb); hold on;
 plot(corners(:, 2), corners(:, 1), 'yo', 'MarkerFaceColor', 'r', 'MarkerSize', 12, 'LineWidth', 2);
 p1 = corners(4, :);
