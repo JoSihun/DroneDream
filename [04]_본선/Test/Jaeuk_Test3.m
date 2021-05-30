@@ -9,7 +9,7 @@
 % Hue(색조): Red, Yellow, Green, Cyan, Blue, Magenta를 주요색조로하는 인접한 색조간의 선형조합(=연속적인 색조)
 % Saturation(채도): 해당 색조의 강도(짙고 옅음)
 % Value(명도): 빛의 에너지 강도에 따라 감각적으로 느끼는 "밝기"
-FILENAME = "test15.png";
+FILENAME = "test3.png";
 src_rgb = imread(FILENAME);         % src_gray = rgb2gray(src_rgb);
 src_hsv = rgb2hsv(src_rgb);         % HSV 3차원 배열
 src_h = src_hsv(:, :, 1);           % Hue 채널
@@ -56,14 +56,41 @@ mid_col = sum_cols / cnt_cols;
 
 dst_rgb = hsv2rgb(dst_hsv);
 dst_bw = im2bw(dst_rgb);
-corners = pgonCorners(dst_bw, 4)
+corners = pgonCorners(dst_bw, 4);
 imshow(dst_rgb); hold on;
 plot(corners(:, 2), corners(:, 1), 'yo', 'MarkerFaceColor', 'r', 'MarkerSize', 12, 'LineWidth', 2);
 p1 = corners(4, :);
 p2 = corners(3, :);
 p3 = corners(1, :);
 p4 = corners(2, :);
-plot([p1(2], [], 'LineWidth', 2);
+% plot([p1(2), p4(2)], [p1(1), p4(1)], 'LineWidth', 2);
+% plot([p2(2), p3(2)], [p2(1), p3(1)], 'LineWidth', 2);
+
+if p1(2)>=p3(2)      %왼쪽 x좌표 구하기
+    min_x = p1(2);
+else
+    min_x = p3(2);   
+end
+
+if p2(2)>=p4(2)      %오른쪽 x좌표 구하기
+    max_x = p4(2);
+else
+    max_x = p2(2);
+end
+
+if p1(1)>=p2(1)
+    min_y = p1(1);
+else
+    min_y = p2(1);
+end
+
+if p3(1)>=p4(1)
+    max_y = p4(1);
+else
+    max_y = p3(1);
+end
+
+
 
 % plot(mid_col, mid_row, 'ro')
 
