@@ -1,4 +1,11 @@
-src = imread('test.png');
+% 중심좌표 미묘하게 안 맞음
+% 수정방법1: 대각선 크로스 교차점을 이용한 중심좌표 탐색
+% 수정방법2: 내부사각형 좌표값 평균을 이용한 중심좌표 탐색
+% 
+% test_019.png ROI까지는 잘 되나, 코너값을 못 찾음
+% 수정방법1: Canny Edge 사용 후 코너값 탐색
+src = imread('./datasets/test_019.png');
+imshow(src);
 
 % Flip Image
 flipud_src = flipud(src);   % 상하반전
@@ -25,8 +32,6 @@ thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
 
 % ImageProcessing1
-activeRow = false;
-activeCol = false;
 dst_hsv1 = double(zeros(size(src_hsv)));
 dst_hsv2 = double(zeros(size(src_hsv)));
 [rows, cols, channels] = size(src_hsv);
@@ -37,34 +42,34 @@ for row = 1:rows
         && thdown_green(3) < src_hsv(row, col, 3) && src_hsv(row, col, 3) < thup_green(3)
 %             dst_hsv(row, col, :) = src_hsv(row, col, :);
 %             dst_hsv(row, col, :) = (thdown_green + thup_green) / 2;
-            dst_hsv1(row, col, :) = [0, 0, 1];   % Black
-            dst_hsv2(row, col, :) = [0, 0, 0];   % White
+            dst_hsv1(row, col, :) = [0, 0, 1];   % White
+            dst_hsv2(row, col, :) = [0, 0, 0];   % Black
         else
-            dst_hsv1(row, col, :) = [0, 0, 0];   % White
-            dst_hsv2(row, col, :) = [0, 0, 1];   % Black
+            dst_hsv1(row, col, :) = [0, 0, 0];   % Black
+            dst_hsv2(row, col, :) = [0, 0, 1];   % White
         end
     end
 end
 
 % Image Processing2
-thres_dst1 = hsv2rgb(dst_hsv1);
-thres_dst2 = hsv2rgb(dst_hsv2);
+thres_dst1 = hsv2rgb(dst_hsv1);                 % 붙여넣야하는 그림 / 초록색이 White
+thres_dst2 = hsv2rgb(dst_hsv2);                 % 잘라내야하는 그림 / 초록색이 Black
 
-gray_thres_dst1 = rgb2gray(thres_dst1);         % 붙여넣야하는 그림
-gray_thres_dst2 = rgb2gray(thres_dst2);         % 잘라내야하는 그림
+gray_thres_dst1 = rgb2gray(thres_dst1);         % 붙여넣야하는 그림 / 초록색이 White
+gray_thres_dst2 = rgb2gray(thres_dst2);         % 잘라내야하는 그림 / 초록색이 Black
 corners1 = pgonCorners(gray_thres_dst1, 4);
 corners2 = pgonCorners(gray_thres_dst2, 4);
 
-roix = [corners1(1, 2) + 5, corners1(2, 2) - 5, corners1(3, 2) - 5, corners1(4, 2) + 5];
-roiy = [corners1(1, 1) - 5, corners1(2, 1) - 5, corners1(3, 1) + 5, corners1(4, 1) + 5];
+roix = [corners1(1, 2) + 5, corners1(2, 2) - 5, corners1(3, 2) - 5, corners1(4, 2) + 5];    % ROI 범위 소량 확장
+roiy = [corners1(1, 1) - 5, corners1(2, 1) - 5, corners1(3, 1) + 5, corners1(4, 1) + 5];    % ROI 범위 소량 확장
 roi = roipoly(thres_dst1, roix, roiy);
 thres_dst = thres_dst2 .* roi;
 gray_thres_dst = rgb2gray(thres_dst);
 corners = pgonCorners(gray_thres_dst, 4);
-p1 = corners(4, :);
-p2 = corners(3, :);
-p3 = corners(1, :);
-p4 = corners(2, :);
+p1 = corners(4, :);         % 좌상단
+p2 = corners(3, :);         % 우상단
+p3 = corners(1, :);         % 좌하단
+p4 = corners(2, :);         % 우하단
 
 % Result
 imshow(src);
