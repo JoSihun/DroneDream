@@ -9,7 +9,7 @@
 % Hue(색조): Red, Yellow, Green, Cyan, Blue, Magenta를 주요색조로하는 인접한 색조간의 선형조합(=연속적인 색조)
 % Saturation(채도): 해당 색조의 강도(짙고 옅음)
 % Value(명도): 빛의 에너지 강도에 따라 감각적으로 느끼는 "밝기"
-FILENAME = "test3.png";
+FILENAME = "test1.png";
 src_rgb = imread(FILENAME);         % src_gray = rgb2gray(src_rgb);
 src_hsv = rgb2hsv(src_rgb);         % HSV 3차원 배열
 src_h = src_hsv(:, :, 1);           % Hue 채널
@@ -56,23 +56,32 @@ mid_col = sum_cols / cnt_cols;
 
 dst_rgb = hsv2rgb(dst_hsv);
 dst_bw = im2bw(dst_rgb);
-corners = pgonCorners(dst_bw, 4)
-imshow(dst_rgb); hold on;
-plot(corners(:, 2), corners(:, 1), 'yo', 'MarkerFaceColor', 'r', 'MarkerSize', 12, 'LineWidth', 2);
-p1 = corners(4, :);
-p2 = corners(3, :);
-p3 = corners(1, :);
-p4 = corners(2, :);
-plot([p1(2), p4(2)], [p1(1), p4(1)], 'LineWidth', 2);
-plot([p2(2), p3(2)], [p2(1), p3(1)], 'LineWidth', 2);
+% corners = pgonCorners(dst_bw, 4)
+% imshow(dst_rgb); hold on;
 
-m1 = (p1(2) - p4(2)) / (p1(1) - p4(1));
-m2 = (p2(2) - p3(2)) / (p2(1) - p3(1));
-y1 = m1 * (x1 - p1(1)) + p1(2);
-y2 = m2 * (x2 - p2(1)) + p2(2);
+C=bwpropfilt(all(dst_bw<50,3),'ConvexArea',1);
+D=bwareafilt( bwconvhull(C)-C>0.5 ,1);
+xy=fliplr(pgonCorners(D,4));
+imshow(dst_bw);
+hold on
+scatter(xy(:,1), xy(:,2),30,'r','filled')
+hold off
 
-cx = (m1 * p1(1) - m2 * p2(1) + p2(2) - p1(2)) / (m1 - m2);
-cy = 
-% plot(mid_col, mid_row, 'ro')
+% plot(corners(:, 2), corners(:, 1), 'yo', 'MarkerFaceColor', 'r', 'MarkerSize', 12, 'LineWidth', 2);
+% p1 = corners(4, :);
+% p2 = corners(3, :);
+% p3 = corners(1, :);
+% p4 = corners(2, :);
+% plot([p1(2), p4(2)], [p1(1), p4(1)], 'LineWidth', 2);
+% plot([p2(2), p3(2)], [p2(1), p3(1)], 'LineWidth', 2);
+% 
+% % y1 = m1 * (x1 - p1(1)) + p1(2);
+% % y2 = m2 * (x2 - p2(1)) + p2(2);
+% m1 = (p1(2) - p4(2)) / (p1(1) - p4(1));
+% m2 = (p2(2) - p3(2)) / (p2(1) - p3(1));
+% cx = (m1 * p1(1) - m2 * p2(1) + p2(2) - p1(2)) / (m1 - m2);
+% cy = m1 * (cx - p1(1)) + p1(2);
+% plot(cy, cx, 'ro');
+% % plot(mid_col, mid_row, 'ro')
 
 
