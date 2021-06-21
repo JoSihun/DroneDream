@@ -55,7 +55,7 @@ dst_rgb = hsv2rgb(dst_hsv);
 % imshow(dst_rgb)
 
 gray = rgb2gray(dst_rgb);
-sobel_image = edge(gray,'sobel','threshold',5);
+sobel_image = edge(gray,'sobel');
 imshow(sobel_image)
 
 location = detectHarrisFeatures(sobel_image);
@@ -64,11 +64,11 @@ strongest = selectStrongest(location, 10);
 hold on
 plot(strongest)
 
-
-[i,j] = find(img>max(img(;))/2);
-ij=[i,j];
-
-[~,idx] = min(ij*[1 1;-1 -1;1 -1;-1 1].');
-
-corners=ij(idx,:)
+% 
+% [i,j] = find(img>max(img(;))/2);
+% ij=[i,j];
+% 
+% [~,idx] = min(ij*[1 1;-1 -1;1 -1;-1 1].');
+% 
+% corners=ij(idx,:)
 
