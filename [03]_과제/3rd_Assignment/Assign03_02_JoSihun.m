@@ -4,7 +4,7 @@
 % 원리: 내외부 사각형을 반전(ROI사용)시킨 뒤, Canny Edge 적용 후 코너값 탐색
 
 % Image Read
-src = imread('./datasets/test_019.png');
+src = imread('./datasets/test_010.png');
 imshow(src);
 
 % HSV Convert
