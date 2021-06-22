@@ -50,24 +50,28 @@ roi = roipoly(thres_dst1, roix, roiy);
 thres_dst = thres_dst2 .* roi;
 gray_thres_dst = rgb2gray(thres_dst);
 
-count_pixel = 0;
-center_row = 0;
-center_col = 0;
-for row = 1:rows
-    for col = 1:cols
-        if gray_thres_dst(row, col) == 1
-            count_pixel = count_pixel + 1;
-            center_row = center_row + row;
-            center_col = center_col + col;    
-        end        
-    end
-end
-y = center_row / count_pixel;
-x = center_col / count_pixel;
+edge_thres_dst = edge(gray_thres_dst, 'Canny');
+corners = pgonCorners(edge_thres_dst, 4);
+p1 = corners(4, :);         % 좌상단
+p2 = corners(3, :);         % 우상단
+p3 = corners(1, :);         % 좌하단
+p4 = corners(2, :);         % 우하단
+    
+% Center Coordinate[연립방정식]
+m1 = (p3(1) - p2(1)) / (p3(2) - p2(2));
+m2 = (p1(1) - p4(1)) / (p1(2) - p4(2));
+x = (m1 * p3(2) - m2 * p1(2) - p3(1) + p1(1)) / (m1 - m2);
+y = m1 * (x - p3(2)) + p3(1);   % 혹은 y = m2 * (x - p1(2)) + p1(1);
     
 % Result
 imshow(src);
 hold on;
+plot(p1(2), p1(1), 'ro');   % 좌상단
+plot(p2(2), p2(1), 'go');   % 우상단
+plot(p3(2), p3(1), 'bo');   % 좌하단
+plot(p4(2), p4(1), 'yo');   % 우하단
+plot([p1(2), p4(2)], [p1(1), p4(1)], 'LineWidth', 2);       % 좌상단, 우하단 직선
+plot([p2(2), p3(2)], [p2(1), p3(1)], 'LineWidth', 2);       % 좌하단, 우상단 직선
 plot(x, y, 'r*');           % 중심좌표
 hold off;
 ans = [x, y]
