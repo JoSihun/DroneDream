@@ -4,7 +4,7 @@
 % 원리: 내외부 사각형을 반전(ROI사용)시킨 뒤, Canny Edge 적용 후 코너값 탐색
 
 % Image Read
-src = imread('./datasets/test_016.png');
+src = imread('./datasets/Circle_005.png');
 imshow(src);
 
 % HSV Convert
@@ -45,8 +45,6 @@ corners1 = pgonCorners(gray_thres_dst1, 4);
 roix = [corners1(1, 2) + 5, corners1(2, 2) - 5, corners1(3, 2) - 5, corners1(4, 2) + 5];    % ROI 범위 소량 확장
 roiy = [corners1(1, 1) - 5, corners1(2, 1) - 5, corners1(3, 1) + 5, corners1(4, 1) + 5];    % ROI 범위 소량 확장
 roi = roipoly(thres_dst1, roix, roiy);
-
-% Canny Edge Detect & Rectangle Corner Detect
 thres_dst = thres_dst2 .* roi;
 gray_thres_dst = rgb2gray(thres_dst);
 
@@ -62,13 +60,14 @@ for row = 1:rows
         end        
     end
 end
-y = center_row / count_pixel;
-x = center_col / count_pixel;
-    
-% Result
-imshow(src);
-hold on;
-plot(x, y, 'r*');           % 중심좌표
-hold off;
-ans = [x, y]
-% ans = [x, y]                % MATLAB Grader 제출용
+center_row = center_row / count_pixel;
+center_col = center_col / count_pixel;
+
+subplot(2, 3, 1); imshow(src);
+subplot(2, 3, 2); imshow(thres_dst1);
+subplot(2, 3, 3); imshow(thres_dst2);
+subplot(2, 3, 4); imshow(gray_thres_dst);
+subplot(2, 3, 5); imshow(gray_thres_dst); hold on;
+plot(center_col, center_row, 'r*'); hold off;
+subplot(2, 3, 6); imshow(src); hold on;
+plot(center_col, center_row, 'r*'); hold off;
