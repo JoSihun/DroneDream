@@ -53,12 +53,32 @@ roi_x = [corners1(1, 2) + 5, corners1(2, 2) - 5, corners1(3, 2) - 5, corners1(4,
 roi_y = [corners1(1, 1) - 5, corners1(2, 1) - 5, corners1(3, 1) + 5, corners1(4, 1) + 5];
 roi = roipoly(dst_gray1, roi_x, roi_y);
 
-
 dst_img = dst_rgb2 .* roi;        %점곱으로 2차배열이미지 곱해서 합쳐주기
 dst_gray = rgb2gray(dst_img);
-dst_edge = edge(dst_gray, 'Canny');  %엣지검출로 모서리 확실하게 만들기
 
-imshow(dst_edge);
+count_pixel = 0;
+center_row = 0;
+center_col = 0;
+for row = 1:rows
+    for col = 1:cols
+        if dst_gray(row, col) == 1
+            count_pixel = count_pixel + 1;
+            center_row = center_row + row;
+            center_col = center_col + col;    
+        end        
+    end
+end
+center_row = center_row / count_pixel;
+center_col = center_col / count_pixel;
+% 
+subplot(2, 3, 1); imshow(src);
+subplot(2, 3, 2); imshow(dst_rgb1);
+subplot(2, 3, 3); imshow(dst_rgb2);
+subplot(2, 3, 4); imshow(dst_gray);
+subplot(2, 3, 5); imshow(dst_gray); hold on;
+plot(center_col, center_row, 'r*'); hold off;
+subplot(2, 3, 6); imshow(src); hold on;
+plot(center_col, center_row, 'r*'); hold off;
 
 % figure();
 % imshow(dst_rgb1); hold on;
