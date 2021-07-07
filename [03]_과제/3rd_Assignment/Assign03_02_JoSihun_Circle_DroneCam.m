@@ -4,7 +4,7 @@
 % 원리: 내외부 사각형을 반전(ROI사용)시킨 뒤, Canny Edge 적용 후 코너값 탐색
 
 droneObj = ryze()
-cam = camera(droneObj)
+cameraObj = camera(droneObj);
 
 while true
     % Image Read
