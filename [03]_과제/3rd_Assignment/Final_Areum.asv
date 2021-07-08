@@ -119,7 +119,7 @@ while 1
             dif_x = cols/2 - center_col;
             dif_y = rows/2 - center_row;    % 카메라 중점 - 원의 중점
             
-            while(not((-10<dif_x)&&(dif_x<10)) || not((-10<dif_y)&&(dif_y<10)))     % 중점의 오차범위가 10 내외가 될 때까지 반복 (값 정확 X)
+            while(not((-10<dif_x)&&(dif_x<10)) || not((-10<dif_y)&&(dif_y<10)))     % 중점의 차이가 +-10이 될 때까지 반복
                 if dif_x <= -200
                     moveright(droneObj, 'distance', 0.3)
                 elseif dif_x <= -100
@@ -149,15 +149,15 @@ while 1
                 end
             end
             
-            if(cnt_red <= 20 || cnt_purple <= 20)       % 해당 픽셀 수가 특정 값일 때 앞으로 이동 (값 정확 X)
+            if(cnt_red <= 20 || cnt_purple <= 20)
                 moveforward(droneObj, 'distance', 1)
             elseif(cnt_red <= 40 || cnt_purple <= 40)
                 moveforward(droneObj, 'distance', 0.5)
             end
             
-            if isequal(isRed, 1)    % 표식이 빨간색이라면 90도 좌회전
+            if isequal(isRed, 1)
                 turn(droneObj, deg2rad(-90))
-            elseif isequal(isPurple, 1)     % 표식이 보라색이라면 착륙
+            elseif isequal(isPurple, 1)
                 land(droneObj)
             end
             
