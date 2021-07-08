@@ -1,3 +1,4 @@
+
 % 중심좌표탐색
 % 방법1: 내부사각형 좌표값 평균을 이용한 중심좌표 탐색
 % 방법2: 대각선 크로스 교차점을 이용한 중심좌표 탐색 (현재적용중인코드)
@@ -85,3 +86,4 @@ plot(center_col, center_row, 'r*'); hold off;
 % plot(corners(:, 2), corners(:, 1), 'ro');
 % figure();
 % imshow(dst_rgb2);
+
