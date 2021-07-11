@@ -1,0 +1,4 @@
+img_path = './datasets/test.jpg'
+
+droneObj = ryze()
+cameraObj = camera(droneObj)
