@@ -2,11 +2,11 @@
 % src_hsv = rgb2hsv(src);
 
 % 드론 객체 선언, 카메라 키기
-% droneObj = ryze()
-% cameraObj = camera(droneObj);
-% takeoff(droneObj);
+droneObj = ryze()
+cameraObj = camera(droneObj);
+takeoff(droneObj);
 
-v = VideoReader('tmp.mp4');
+% v = VideoReader('tmp.mp4');
 thdown_blue = [0.5, 120/240, 80/240];
 thup_blue = [0.75, 240/240, 240/240];
 thdown_red = [0.0, 40/240, 65/240];   % 빨간색 점의 임계값 범위
@@ -14,7 +14,8 @@ thup_red = [0.0, 240/240, 240/240];
 thdown_purple = [0.25, 35/240, 45/240]; % 보라색 점의 임계값 범위
 thup_purple = [0.3, 240/240, 240/240];
 while 1
-    src = readFrame(v);
+    src = snapshot(cameraObj);
+%     src = readFrame(v);
     src_hsv = rgb2hsv(src);
     imshow(src);
     
@@ -165,16 +166,16 @@ while 1
         catch exception
             disp('Trying to find the circle...');
              if (thi==0 && fou==0)    % 1사분면에 있는 초록색의 픽셀 개수가 max
-               movedown(droneObj, 'distance', 0.3)
+               moveup(droneObj, 'distance', 0.3)
             end
             if (fir==0 && sec==0)    % 2사분면에 있는 초록색의 픽셀 개수가 max
-               moveup(droneObj, 'distacne', 0.3)
+               movedown(droneObj, 'distacne', 0.3)
             end
             if (sec==0 && thi==0)    % 3사분면에 있는 초록색의 픽셀 개수가 max
-               moveleft(droneObj, 'distance', 0.3)
+               moveright(droneObj, 'distance', 0.3)
             end
             if (fir==0 && fou==0)    % 4사분면에 있는 초록색의 픽셀 개수가 max
-               moveright(droneObj, 'distance', 0.3)
+               moveleft(droneObj, 'distance', 0.3)
             end
         end
     end
