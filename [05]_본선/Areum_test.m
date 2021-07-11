@@ -1,3 +1,3 @@
 droneObj = ryze()
-% takeoff(droneObj);
+takeoff(droneObj);
 cameraObj = camera(droneObj);
