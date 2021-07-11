@@ -70,6 +70,7 @@ while 1
     % 링이 카메라에 잘렸을 경우
     A = [fir, sec, thi, fou];
     m = max(A);
+    disp('사분면 검출');
     while ((m == fir) && (sec==0 && thi==0 && fou==0))    % 1사분면에 있는 초록색의 픽셀 개수가 max
        inCam = 0;
        moveright(droneObj, 'distance', 0.3)
@@ -91,6 +92,7 @@ while 1
        movedown(droneObj, 'distance', 0.3)
     end
     
+    disp('원의 중점 찾기');
     if isequal(inCam, 1)    % 동그라미가 카메라 안에 있을 경우에만 실행
         try
             thres_dst1 = hsv2rgb(dst_hsv1);
@@ -123,7 +125,8 @@ while 1
             dif_x = cols/2 - center_col;
             dif_y = rows/2 - center_row;    % 카메라 중점 - 원의 중점
 
-            while(not((-10<dif_x)&&(dif_x<10)) || not((-10<dif_y)&&(dif_y<10)))     % 중점의 오차범위가 10 내외가 될 때까지 반복 (값 정확 X)
+            disp('Move to Center');
+            if(not((-10<dif_x)&&(dif_x<10)) || not((-10<dif_y)&&(dif_y<10)))     % 중점의 오차범위가 10 내외가 될 때까지 반복 (값 정확 X)
                 if dif_x <= -200
                     moveright(droneObj, 'distance', 0.3)
                 elseif dif_x <= -100
@@ -153,18 +156,19 @@ while 1
                 end
             end
             
-            if(cnt_red <= 20 || cnt_purple <= 20)       % 해당 픽셀 수가 특정 값일 때 앞으로 이동 (값 정확 X)
-                moveforward(droneObj, 'distance', 1)
-            elseif(cnt_red <= 40 || cnt_purple <= 40)
-                moveforward(droneObj, 'distance', 0.5)
-            end
+%             disp('앞으로 전진');
+%             if(cnt_red <= 20 || cnt_purple <= 20)       % 해당 픽셀 수가 특정 값일 때 앞으로 이동 (값 정확 X)
+%                 moveforward(droneObj, 'distance', 1)
+%             elseif(cnt_red <= 40 || cnt_purple <= 40)
+%                 moveforward(droneObj, 'distance', 0.5)
+%             end
             
-            if isequal(isRed, 1)    % 표식이 빨간색이라면 90도 좌회전
-                turn(droneObj, deg2rad(-90))
-            elseif isequal(isPurple, 1)     % 표식이 보라색이라면 착륙
-                land(droneObj)
-                break;
-            end
+%             if isequal(isRed, 1)    % 표식이 빨간색이라면 90도 좌회전
+%                 turn(droneObj, deg2rad(-90))
+%             elseif isequal(isPurple, 1)     % 표식이 보라색이라면 착륙
+%                 land(droneObj)
+%                 break;
+%             end
             
         catch exception
             disp('Trying to find the circle...');
