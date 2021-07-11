@@ -5,11 +5,10 @@
 droneObj = ryze()
 cameraObj = camera(droneObj);
 takeoff(droneObj);
-moveup(droneObj, 'distance', 1.5);
 
 % v = VideoReader('tmp.mp4');
-thdown_blue = [0.5, 0.5, 0.25];
-thup_blue = [0.75, 1, 1];   % 나중에 blue로 바꿔야 함.
+thdown_blue = [0.5, 120/240, 80/240];
+thup_blue = [0.75, 240/240, 240/240];
 thdown_red = [0.0, 40/240, 65/240];   % 빨간색 점의 임계값 범위
 thup_red = [0.0, 240/240, 240/240];
 thdown_purple = [0.25, 35/240, 45/240]; % 보라색 점의 임계값 범위
@@ -165,7 +164,19 @@ while 1
             end
             
         catch exception
-            disp('error occurred');
+            disp('Trying to find the circle...');
+             if (thi==0 && fou==0)    % 1사분면에 있는 초록색의 픽셀 개수가 max
+               moveup(droneObj, 'distance', 0.3)
+            end
+            if (fir==0 && sec==0)    % 2사분면에 있는 초록색의 픽셀 개수가 max
+               movedown(droneObj, 'distacne', 0.3)
+            end
+            if (sec==0 && thi==0)    % 3사분면에 있는 초록색의 픽셀 개수가 max
+               moveright(droneObj, 'distance', 0.3)
+            end
+            if (fir==0 && fou==0)    % 4사분면에 있는 초록색의 픽셀 개수가 max
+               moveleft(droneObj, 'distance', 0.3)
+            end
         end
     end
     
