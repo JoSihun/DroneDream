@@ -5,15 +5,12 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.5, 0.25];
 thup_blue = [0.75, 1, 1];
 
-% HSV Convert
-% frame = imread('./datasets/test.jpg');
-% src_hsv = rgb2hsv(frame);
-
-droneObj = ryze()
-cameraObj = camera(droneObj)
-
+% droneObj = ryze()
+% cameraObj = camera(droneObj)
 while 1
-    frame = snapshot(cameraObj);
+    % HSV Convert
+    frame = imread('./datasets/test03.jpg');
+%     frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
 
     % ImageProcessing1
@@ -48,23 +45,24 @@ while 1
         roi = roipoly(thres_dst1, roix, roiy);
         thres_dst = thres_dst2 .* roi;
         gray_thres_dst = rgb2gray(thres_dst);
+
+        count_pixel = 0;
+        center_row = 0;
+        center_col = 0;
+        for row = 1:rows
+            for col = 1:cols
+                if gray_thres_dst(row, col) == 1
+                    count_pixel = count_pixel + 1;
+                    center_row = center_row + row;
+                    center_col = center_col + col;    
+                end        
+            end
+        end
+        center_row = center_row / count_pixel;
+        center_col = center_col / count_pixel;
     catch exception
         disp('ROI Error');
     end
-    count_pixel = 0;
-    center_row = 0;
-    center_col = 0;
-    for row = 1:rows
-        for col = 1:cols
-            if gray_thres_dst(row, col) == 1
-                count_pixel = count_pixel + 1;
-                center_row = center_row + row;
-                center_col = center_col + col;    
-            end        
-        end
-    end
-    center_row = center_row / count_pixel;
-    center_col = center_col / count_pixel;
 
     subplot(2, 2, 1), imshow(frame); hold on;
     plot(center_col, center_row, 'r*'); hold off;
