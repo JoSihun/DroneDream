@@ -7,7 +7,7 @@
 % takeoff(droneObj);
 
 v = VideoReader('tmp.mp4');
-thdown_blue = [0.5, 120/240, 80/240];
+thdown_blue = [0.5, 0.5, 0.25];
 thup_blue = [0.75, 240/240, 240/240];
 thdown_red = [0.0, 40/240, 65/240];   % 빨간색 점의 임계값 범위
 thup_red = [0.0, 240/240, 240/240];
@@ -164,17 +164,17 @@ while 1
             
         catch exception
             disp('Trying to find the circle...');
-             if (thi==0 && fou==0)    % 1사분면에 있는 초록색의 픽셀 개수가 max
-               movedown(droneObj, 'distance', 0.3)
+             if (thi==0 && fou==0)
+               moveup(droneObj, 'distance', 0.3)
             end
-            if (fir==0 && sec==0)    % 2사분면에 있는 초록색의 픽셀 개수가 max
-               moveup(droneObj, 'distacne', 0.3)
+            if (fir==0 && sec==0)
+               movedown(droneObj, 'distacne', 0.3)
             end
-            if (sec==0 && thi==0)    % 3사분면에 있는 초록색의 픽셀 개수가 max
-               moveleft(droneObj, 'distance', 0.3)
-            end
-            if (fir==0 && fou==0)    % 4사분면에 있는 초록색의 픽셀 개수가 max
+            if (sec==0 && thi==0)
                moveright(droneObj, 'distance', 0.3)
+            end
+            if (fir==0 && fou==0)
+               moveleft(droneObj, 'distance', 0.3)
             end
         end
     end
