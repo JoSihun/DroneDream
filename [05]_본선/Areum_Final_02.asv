@@ -2,21 +2,19 @@
 % src_hsv = rgb2hsv(src);
 
 % 드론 객체 선언, 카메라 키기
-droneObj = ryze()
-cameraObj = camera(droneObj);
-takeoff(droneObj);
-moveup(droneObj, 'distance', 1.5);
+% droneObj = ryze()
+% cameraObj = camera(droneObj);
+% takeoff(droneObj);
 
-% v = VideoReader('tmp.mp4');
-thdown_blue = [0.5, 0.5, 0.25];
-thup_blue = [0.75, 1, 1];   % 나중에 blue로 바꿔야 함.
+v = VideoReader('tmp.mp4');
+thdown_green = [0.25, 40/240, 80/240];
+thup_green = [0.40, 240/240, 240/240];   % 나중에 blue로 바꿔야 함.
 thdown_red = [0.0, 40/240, 65/240];   % 빨간색 점의 임계값 범위
 thup_red = [0.0, 240/240, 240/240];
-thdown_purple = [0.25, 35/240, 45/240]; % 보라색 점의 임계값 범위
-thup_purple = [0.3, 240/240, 240/240];
+thdown_purple = []; % 보라색 점의 임계값 범위
+thup_purple = [];
 while 1
-    src = snapshot(cameraObj);
-%     src = readFrame(v);
+    src = readFrame(v);
     src_hsv = rgb2hsv(src);
     imshow(src);
     
@@ -29,9 +27,9 @@ while 1
     cnt_red = 0; cnt_purple = 0;
     for row = 1:rows
         for col = 1:cols
-            if thdown_blue(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_blue(1) ...
-            && thdown_blue(2) < src_hsv(row, col, 2) && src_hsv(row, col, 2) < thup_blue(2) ...
-            && thdown_blue(3) < src_hsv(row, col, 3) && src_hsv(row, col, 3) < thup_blue(3)
+            if thdown_green(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_green(1) ...
+            && thdown_green(2) < src_hsv(row, col, 2) && src_hsv(row, col, 2) < thup_green(2) ...
+            && thdown_green(3) < src_hsv(row, col, 3) && src_hsv(row, col, 3) < thup_green(3)
                 dst_hsv1(row, col, :) = [0, 0, 1];   % White
                 dst_hsv2(row, col, :) = [0, 0, 0];   % Black
                 
