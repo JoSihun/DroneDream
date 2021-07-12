@@ -6,8 +6,8 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-droneObj = ryze()
-cameraObj = camera(droneObj)
+droneObj = ryze();
+cameraObj = camera(droneObj);
 % takeoff(droneObj);
 % v = VideoReader('test_video2.mp4');
 while 1
