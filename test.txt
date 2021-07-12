@@ -1,0 +1,228 @@
+>> Sihun_Final_01
+다음 사용 중 오류가 발생함: Sihun_Final_01 (10번 라인)
+Unable to connect to a Tello drone. Ensure that the drone is powered on and the computer is connected to the drone's WiFi network.
+ 
+>> Sihun_Final_01
+
+droneObj = 
+
+  ryze - 속성 있음:
+
+                   Name: "Tello"
+                     ID: "TELLO-9F0DF1"
+                  State: "landed"
+           BatteryLevel: 22 %
+       AvailableCameras: ["FPV"]
+
+
+cameraObj = 
+
+  Camera - 속성 있음:
+
+                   Name: "FPV"
+             Resolution: "960x720"
+
+HSV Converting
+Image Processing 1: Detecting Blue
+'thdown_blue'은(는) 인식할 수 없는 함수 또는 변수입니다.
+
+오류 발생: Sihun_Final_01 (28번 라인)
+            if thdown_blue(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_blue(1) ...
+ 
+>> land(droneObj)
+>> Sihun_Final_01
+
+droneObj = 
+
+  ryze - 속성 있음:
+
+                   Name: "Tello"
+                     ID: "TELLO-9F0DF1"
+                  State: "landed"
+           BatteryLevel: 21 %
+       AvailableCameras: ["FPV"]
+
+
+cameraObj = 
+
+  Camera - 속성 있음:
+
+                   Name: "FPV"
+             Resolution: "960x720"
+
+HSV Converting
+Image Processing 1: Detecting Blue
+'thdown_blue'은(는) 인식할 수 없는 함수 또는 변수입니다.
+
+오류 발생: Sihun_Final_01 (28번 라인)
+            if thdown_blue(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_blue(1) ...
+ 
+>> land(droneObj)
+>> Sihun_Final_01
+
+droneObj = 
+
+  ryze - 속성 있음:
+
+                   Name: "Tello"
+                     ID: "TELLO-9F0DF1"
+                  State: "landed"
+           BatteryLevel: 21 %
+       AvailableCameras: ["FPV"]
+
+
+cameraObj = 
+
+  Camera - 속성 있음:
+
+                   Name: "FPV"
+             Resolution: "960x720"
+
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+ -253.0397
+
+
+moveCol =
+
+ -225.5572
+
+MoveLeft
+MoveUp
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+ -224.2726
+
+
+moveCol =
+
+ -109.0725
+
+MoveLeft
+MoveUp
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+ -163.0589
+
+
+moveCol =
+
+   48.5277
+
+MoveLeft
+MoveDown
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+ROI Error
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+ -223.4376
+
+
+moveCol =
+
+  177.1673
+
+MoveLeft
+MoveDown
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+ -183.5417
+
+
+moveCol =
+
+  357.2942
+
+MoveLeft
+MoveDown
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+   NaN
+
+
+moveCol =
+
+   NaN
+
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+   NaN
+
+
+moveCol =
+
+   NaN
+
+HSV Converting
+Image Processing 1: Detecting Blue
+Image Processing 2: Detect Circle
+ROI Image Processing
+Image Processing 2: Detect Center
+Move to Center Caculating
+
+moveRow =
+
+   NaN
+
+
+moveCol =
+
+   NaN
+
+HSV Converting
+Image Processing 1: Detecting Blue
+27              if thdown_blue(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_blue(1) ...
+>> land(droneObj)
+>> 
