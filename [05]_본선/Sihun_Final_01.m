@@ -6,19 +6,20 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
+clear()
 droneObj = ryze()
 cameraObj = camera(droneObj)
 takeoff(droneObj);
 
 while 1
     % HSV Convert
-%     frame = imread('./datasets/test03.jpg');
+    % frame = imread('./datasets/test03.jpg');
     frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     disp('HSV Converting');
 
-    % ImageProcessing1
-    disp('Image Processing 1');
+    % ImageProcessing1: Detecting Blue
+    disp('Image Processing 1: Detecting Blue');
     dst_hsv1 = double(zeros(size(src_hsv)));
     dst_hsv2 = double(zeros(size(src_hsv)));
     [rows, cols, channels] = size(src_hsv);
@@ -37,8 +38,8 @@ while 1
     end
 
     try
-        % Image Processing2
-        disp('Image Processing 2');
+        % Image Processing2: Detect Circle
+        disp('Image Processing 2: Detect Circle');
         thres_dst1 = hsv2rgb(dst_hsv1);                 % 붙여넣야하는 그림 / 초록색이 White
         thres_dst2 = hsv2rgb(dst_hsv2);                 % 잘라내야하는 그림 / 초록색이 Black
 
@@ -53,6 +54,8 @@ while 1
         thres_dst = thres_dst2 .* roi;
         gray_thres_dst = rgb2gray(thres_dst);
 
+        % Detecting Center
+        disp('Image Processing 2: Detect Center');
         count_pixel = 0;
         center_row = 0;
         center_col = 0;
@@ -99,6 +102,7 @@ while 1
             plot(center_col, center_row, 'r*'); hold off;
             subplot(2, 2, 3), imshow(dst_hsv1);
             subplot(2, 2, 4), imshow(dst_hsv2);
+            clear corners1;
     catch exception
         disp('ROI Error');
     end
