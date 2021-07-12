@@ -1,3 +1,4 @@
+clear()
 % HSV Threshold Green
 thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
@@ -5,45 +6,35 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-clear()
-droneObj = ryze()
-cameraObj = camera(droneObj)
-takeoff(droneObj);
-while 1
+v = VideoReader('test_video2.mp4');
+while hasFrame(v)
     % HSV Convert
     disp('HSV Converting');
-    frame = snapshot(cameraObj);
+    frame = readFrame(v);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
+    src_s = src_hsv(:,:,2);
+    src_v = src_hsv(:,:,3);
+    [rows, cols, channels] = size(src_hsv);
 
-    detect_blue = (0.5 < src_h) & (src_h < 0.75);
-    [row, col] = find(detect_blue);
-    if ~isempty(row) && ~isempty(col)
-        XblueCenter = round(mean(col));
-        YblueCenter = round(mean(row));
-    end
-    imshow(frame); hold on;
-    plot(XblueCenter, YblueCenter, 'r*'); hold off;
-
-    % 중앙 점을 따라가는 함수
-    if YblueCenter < 330
-        moveup(droneObj, 0.6);
-        pause(1);
-    elseif YblueCenter > 390
-        movedown(droneObj, 0.5);
-        pause(1);
-    else
-        if XblueCenter < 440
-            moveleft(droneObj, 0.6);
-            pause(1);
-        elseif XblueCenter > 520
-            moveright(droneObj, 0.5);
-            pause(1);
-        else
-            break;
+    % Image Preprocessing
+    bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
+    bw2 = imfill(bw1,'holes');                                                                      %구멍을 채움
+    %구멍을 채우기 전과 후를 비교하여 값이 일정하면 0, 변했으면 1로 변환
+    for x=1:rows
+        for y=1:cols
+            if bw1(x,y)==bw2(x,y)
+                bw2(x,y)=0;
+            end
         end
     end
-
-    clear XgreenCenter;
-    clear YgreenCenter;
+    imshow(bw1);
+%     imshow(bw2);
+    
+%     subplot(1, 2, 2), imshow(dst_hsv1)
+%     plot(center_col, center_row, 'r*'); hold off;
+%     subplot(2, 2, 2), imshow(gray_thres_dst); hold on;
+%     plot(center_col, center_row, 'r*'); hold off;
+%     subplot(2, 2, 3), imshow(dst_hsv1);
+%     subplot(2, 2, 4), imshow(dst_hsv2);
 end

@@ -1,3 +1,4 @@
+clear()
 % HSV Threshold Green
 thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
@@ -5,100 +6,46 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-% HSV Convert
-frame = imread('./datasets/test03.jpg');
-src_hsv = rgb2hsv(frame);
-disp('HSV Converting');
-    
-
-while 1
-
-
-    % ImageProcessing1
-    disp('Image Processing 1');
-    dst_hsv1 = double(zeros(size(src_hsv)));
-    dst_hsv2 = double(zeros(size(src_hsv)));
+v = VideoReader('test_video.mp4');
+while hasFrame(v)
+    % HSV Convert
+    frame = readFrame(v);
+    src_hsv = rgb2hsv(frame);
     [rows, cols, channels] = size(src_hsv);
-    for row = 1:rows
-        for col = 1:cols
-            if thdown_blue(1) < src_hsv(row, col, 1) && src_hsv(row, col, 1) < thup_blue(1) ...
-            && thdown_blue(2) < src_hsv(row, col, 2) && src_hsv(row, col, 2) < thup_blue(2) ...
-            && thdown_blue(3) < src_hsv(row, col, 3) && src_hsv(row, col, 3) < thup_blue(3)
-                dst_hsv1(row, col, :) = [0, 0, 1];   % White
-                dst_hsv2(row, col, :) = [0, 0, 0];   % Black
-            else
-                dst_hsv1(row, col, :) = [0, 0, 0];   % Black
-                dst_hsv2(row, col, :) = [0, 0, 1];   % White
+    
+    disp('HSV Converting');
+    src_h = src_hsv(:,:,1);
+    src_s = src_hsv(:,:,2);
+    src_v = src_hsv(:,:,3);
+    
+    blue = (0.5 < src_h)&(src_h < 0.75) & (0.35 < src_s)&( src_s < 1) & (0.25 < src_v)&(src_v < 1);
+    %첫 행을 1로 변환
+    for i=1:960
+        blue(1,i)=1;
+    end
+    %마지막 행을 1로 변환
+    for i=1:960
+    blue(720,i)=1;
+    end
+    
+    %구멍을 채움
+    bw2 = imfill(blue,'holes');
+    %구멍을 채우기 전과 후를 비교하여 값이 일정하면 0, 변했으면 1로 변환
+    for x=1:720
+        for y=1:960
+            if blue(x,y)==bw2(x,y)
+                bw2(x,y)=0;
             end
         end
     end
 
-    try
-        % Image Processing2
-        disp('Image Processing 2');
-        thres_dst1 = hsv2rgb(dst_hsv1);                 % 붙여넣야하는 그림 / 초록색이 White
-        thres_dst2 = hsv2rgb(dst_hsv2);                 % 잘라내야하는 그림 / 초록색이 Black
-
-        gray_thres_dst1 = rgb2gray(thres_dst1);
-        corners1 = pgonCorners(gray_thres_dst1, 4);
-        
-        % ROI
-        disp('ROI Image Processing');
-        roix = [corners1(1, 2) + 5, corners1(2, 2) - 5, corners1(3, 2) - 5, corners1(4, 2) + 5];    % ROI 범위 소량 확장
-        roiy = [corners1(1, 1) - 5, corners1(2, 1) - 5, corners1(3, 1) + 5, corners1(4, 1) + 5];    % ROI 범위 소량 확장
-        roi = roipoly(thres_dst1, roix, roiy);
-        thres_dst = thres_dst2 .* roi;
-        gray_thres_dst = rgb2gray(thres_dst);
-
-        count_pixel = 0;
-        center_row = 0;
-        center_col = 0;
-        for row = 1:rows
-            for col = 1:cols
-                if gray_thres_dst(row, col) == 1
-                    count_pixel = count_pixel + 1;
-                    center_row = center_row + row;
-                    center_col = center_col + col;    
-                end        
-            end
-        end
-        center_row = center_row / count_pixel;
-        center_col = center_col / count_pixel;
-        camera_mid_row = rows / 2;
-        camera_mid_col = cols / 2;
-        
-        disp('Move to Center Caculating');
-        moveRow = center_row - camera_mid_row;
-        moveCol = center_col - camera_mid_col;
-        if not(-20< moveRow && moveRow < 20) || not(-20< moveCol && moveCol < 20)
-            if moveRow < -20
-                disp('MoveLeft');
-                moveleft(droneObj, 'Distance', 0.2)
-            end
-            if moveRow > 20
-                disp('MoveRight');
-                moveright(droneObj, 'Distance', 0.2)
-            end
-            if moveCol < -20
-                disp('MoveUp');
-                moveup(droneObj, 'Distance', 0.2)
-            end
-            if moveCol > 20
-                disp('MoveDown');
-                movedown(droneObj, 'Distance', 0.2)
-            end
-        else
-            break
-        end
-            subplot(2, 2, 1), imshow(frame); hold on;
-            plot(center_col, center_row, 'r*'); hold off;
-            subplot(2, 2, 2), imshow(gray_thres_dst); hold on;
-            plot(center_col, center_row, 'r*'); hold off;
-            subplot(2, 2, 3), imshow(dst_hsv1);
-            subplot(2, 2, 4), imshow(dst_hsv2);
-    catch exception
-        disp('ROI Error');
-    end
+    
+    
+    subplot(1, 2, 1), imshow(blue)
+%     subplot(1, 2, 2), imshow(dst_hsv1)
+%     plot(center_col, center_row, 'r*'); hold off;
+%     subplot(2, 2, 2), imshow(gray_thres_dst); hold on;
+%     plot(center_col, center_row, 'r*'); hold off;
+%     subplot(2, 2, 3), imshow(dst_hsv1);
+%     subplot(2, 2, 4), imshow(dst_hsv2);
 end
-moveforward(droneObj, 'Distance', 1)
-land(droneObj);
