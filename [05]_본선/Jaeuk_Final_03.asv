@@ -33,23 +33,18 @@ end
 
 while 1
     if sum(detected_blue, [0 0 480 720], 'all') - sum(detected_blue, [480 0 960 720], 'all') >5000
-        disp('캠 위치 왼쪽이동');
         moveleft(droneObj, 'distance', 0.4');
     elseif sum(detected_blue, [480 0 960 720], 'all') - sum(detected_blue, [0 0 480 720], 'all') >5000
-        disp('캠 위치 오른쪽이동');
         moveright(droneObj, 'distance', 0.4');
     end
     
     if sum(detected_blue, [0 0 960 360], 'all') - sum(detected_blue, [0 360 960 720], 'all') >5000
-        disp('캠 위치 위쪽이동');
         moveup(droneObj, 'distance', 0.4');
     elseif sum(detected_blue, [0 360 960 720], 'all') - sum(detected_blue, [0 0 960 360], 'all') >5000
-        disp('캠 위치 아래쪽이동');
         movedown(droneObj, 'distance', 0.4');
     end
     
-    if sum(detected_blue, 'all') >= 250000
-        disp('캠 위치 조정완료');
+    if sum(detected_blue, 'all') >= 300000
         break;
     end
 end
@@ -83,7 +78,7 @@ while 1
     
     if img_mid(1)-ring_mid(1) < 50 && img_mid(1)-ring_mid(1)>-50 ...
             && img_mid(2)-ring_mid(2)<50 && img_mid(2)-ring_mid(2)>-50
-        disp('중점 일치화 완료 후 전진');
+        disp('일치화 완료 후 전진');
         moveforward(droneObj, 'Distance', 1.0);
         break;
     end
@@ -102,7 +97,6 @@ while 1
     else
         disp('빨간표식 향해 전진');
         moveforward(droneObj, 'Distance', 0.3);
-        land(droneObj);
     end
 end
 
