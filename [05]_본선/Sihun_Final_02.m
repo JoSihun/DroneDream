@@ -23,6 +23,11 @@ while 1
 
     % Image Preprocessing
     bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
+    
+    
+    
+    
+    
     bw2 = imfill(bw1,'holes');                                                                      % 구멍을 채움
     %구멍을 채우기 전과 후를 비교하여 값이 일정하면 0, 변했으면 1로 변환
     for row = 1:rows
