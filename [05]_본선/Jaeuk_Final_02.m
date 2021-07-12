@@ -23,7 +23,7 @@ while 1
     % HSV Convert
     img_hsv = rgb2hsv(img);
     dst_h = img_hsv(:,:,1);
-    detected_green = (0.25<dst_h)&(dst_h<0.40);
+    detected_blue = (0.5<dst_h)&(dst_h<0.75);
     
     if sum(detect_green, 'all') >= 150000
         break;
@@ -31,13 +31,9 @@ while 1
         moveforward(droneObj, 'Distance', 0.5);
     end
     
-    % 현재 위치의 이미지를 가지고 중점 탐색
-    [rows, cols, channels] = size(img_hsv);
-    dst_hsv1 = double(zeros(size(img_hsv)));
-    dst_hsv2 = double(zeros(size(img_hsv)));
-
-    cnt_rows=0; cnt_cols=0;
-    sum_rows=0; sum_cols=0;
+    center = findcenter(img_hsv);
+    
+    
 end
 
 for row = 1:rows
@@ -144,7 +140,32 @@ end
 % subplot(2, 3, 6); imshow(img); hold on;
 % plot(center_col, center_row, 'r*'); hold off
 
-function findhole
+function find_hole = findcenter(img_hsv)
+    
+    % 현재 위치의 이미지를 가지고 중점 탐색
+    [rows, cols, channels] = size(img_hsv);
+    dst_hsv1 = double(zeros(size(img_hsv)));
+    dst_hsv2 = double(zeros(size(img_hsv)));
 
+    cnt_rows=0; cnt_cols=0;
+    sum_rows=0; sum_cols=0;
+    
+    for row = 1:rows
+        for col = 1:cols
+            if thdown_green(1) < img_hsv(row, col, 1) && img_hsv(row, col, 1) < thup_green(1) ...
+                    && thdown_green(2) < img_hsv(row, col, 2) && img_hsv(row, col, 2) < thup_green(2) ...
+                    && thdown_green(3) < img_hsv(row, col, 3) && img_hsv(row, col, 3) < thup_green(3)
+                dst_hsv1(row, col, :) = [0, 0, 1];
+                dst_hsv2(row, col, :) = [0, 0, 0];
+            else
+                dst_hsv1(row, col, :) = [0, 0, 0];
+                dst_hsv2(row, col, :) = [0, 0, 1];
+            end
+        end
+    end
+    
+    
+    
+    find_hole = [center_row, center_col];
 end
 
