@@ -1,6 +1,4 @@
 % HSV Threshold Green
-
-
 % 드론 객체 선언
 droneObj = ryze();
 cam = camera(droneObj);
@@ -19,14 +17,38 @@ while 1
     % HSV Convert
     img_hsv = rgb2hsv(img);
     dst_h = img_hsv(:,:,1);
+    % 파란색 임계값 범위 설정
     detected_blue = (0.5<dst_h)&(dst_h<0.75);
     
     if sum(detected_blue, 'all') >= 150000
         break;
     else
+        disp('링을 향해 전진');
         moveforward(droneObj, 'Distance', 0.5);
-    end  
-        
+    end         
+end
+
+while 1
+    if sum(detected_blue, [0 0 480 720], 'all') - sum(detected_blue, [480 0 960 720], 'all') >5000
+        disp('캠 위치 왼쪽이동');
+        moveleft(droneObj, 'distance', 0.4');
+    elseif sum(detected_blue, [480 0 960 720], 'all') - sum(detected_blue, [0 0 480 720], 'all') >5000
+        disp('캠 위치 오른쪽이동');
+        moveright(droneObj, 'distance', 0.4');
+    end
+    
+    if sum(detected_blue, [0 0 960 360], 'all') - sum(detected_blue, [0 360 960 720], 'all') >5000
+        disp('캠 위치 위쪽이동');
+        moveup(droneObj, 'distance', 0.4');
+    elseif sum(detected_blue, [0 360 960 720], 'all') - sum(detected_blue, [0 0 960 360], 'all') >5000
+        disp('캠 위치 아래쪽이동');
+        movedown(droneObj, 'distance', 0.4');
+    end
+    
+    if sum(detected_blue, 'all') >= 250000
+        disp('캠 위치 조정완료');
+        break;
+    end
 end
 
 % 링의 중점과 이미지의 중점좌표를 일치화 후 전진
@@ -39,6 +61,7 @@ while 1
     ring_mid = findcenter(img_hsv);
     [img_row, img_col, channels] = size(img_hsv);
     img_mid = [img_col/2, img_row/2];
+
     
     if img_mid(2) - ring_mid(2) > 50
         disp('왼쪽으로 이동');
@@ -46,14 +69,19 @@ while 1
     elseif img_mid(2) - ring_mid(2) < -50
         disp('오른쪽으로 이동');
         moveright(droneObj, 'Distance', 0.2);
-    elseif img_mid(1) - ring_mid(1) > 50
+    end
+    
+    if img_mid(1) - ring_mid(1) > 50
         disp('위로 이동');
         moveup(droneObj, 'Distance', 0.2);
     elseif img_mid(1) - ring_mid(1) < -50
         disp('아래로 이동');
         movedown(droneObj, 'Distance', 0.2);
-    else
-        disp('일치화 완료 후 전진');
+    end
+    
+    if img_mid(1)-ring_mid(1) < 50 && img_mid(1)-ring_mid(1)>-50 ...
+            && img_mid(2)-ring_mid(2)<50 && img_mid(2)-ring_mid(2)>-50
+        disp('중점 일치화 완료 후 전진');
         moveforward(droneObj, 'Distance', 1.0);
         break;
     end
@@ -72,6 +100,7 @@ while 1
     else
         disp('빨간표식 향해 전진');
         moveforward(droneObj, 'Distance', 0.3);
+        land(droneObj);
     end
 end
 
@@ -131,13 +160,19 @@ land(droneObj);
 % 링의 중점을 찾는 코드를 함수로 구현하여 코드 간략화할 필요성 O
 
 % while 1
+%        
+%     if sum(detected_blue, [0 0 480 720], 'all') - sum(detected_blue, [480 0 960 720], 'all') >5000
+%         moveleft(droneObj, 'distance', 0.3');
+%     elseif sum(detected_blue, [480 0 960 720], 'all') - sum(detected_blue, [0 0 480 720], 'all') >5000
+%         moveright(droneObj, 'distance', 0.3');
+%     end
 %     
-%     
-%     if sum(detect_green, [0 0 480 720], 'all') - sum(detect_green, [480 0 960 720], 'all') >5000
+%     if sum(detected_blue, [0 0 960 360], 'all') - sum(detected_blue, [0 360 960 720], 'all') >5000
+%         moveup(droneObj, 'distance', 0.3');
+%     elseif sum(detected_blue, [0 360 960 720], 'all') - sum(detected_blue, [0 0 960 360], 'all') >5000
+%         movedown(droneObj, 'distance', 0.3');
+%     end
 %         
-%     
-%         
-%     
 %     
 % end
 
@@ -152,6 +187,10 @@ land(droneObj);
 % plot(center_col, center_row, 'r*'); hold off
 
 function find_hole = findcenter(img_hsv)
+
+    % HSV Threshold Green
+    thdown_blue = [0.5, 0.4, 0.25];
+    thup_blue = [0.75, 1, 1];
     
     thdown_blue = [0.5, 0.4, 0.25];
     thup_blue = [0.75, 1, 1];

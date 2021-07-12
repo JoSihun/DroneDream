@@ -1,5 +1,10 @@
 % HSV Threshold Green
+<<<<<<< HEAD
+thdown_blue = [0.5, 0.4, 0.25];
+thup_blue = [0.75, 1, 1];
+=======
 
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
 
 % 드론 객체 선언
 droneObj = ryze();
@@ -19,14 +24,42 @@ while 1
     % HSV Convert
     img_hsv = rgb2hsv(img);
     dst_h = img_hsv(:,:,1);
+<<<<<<< HEAD
+    % 파란색 임계값 범위 설정
+=======
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
     detected_blue = (0.5<dst_h)&(dst_h<0.75);
     
     if sum(detected_blue, 'all') >= 150000
         break;
     else
+<<<<<<< HEAD
+        disp('링을 향해 전진');
+        moveforward(droneObj, 'Distance', 0.5);
+    end         
+end
+
+while 1
+    if sum(detected_blue, [0 0 480 720], 'all') - sum(detected_blue, [480 0 960 720], 'all') >5000
+        moveleft(droneObj, 'distance', 0.4');
+    elseif sum(detected_blue, [480 0 960 720], 'all') - sum(detected_blue, [0 0 480 720], 'all') >5000
+        moveright(droneObj, 'distance', 0.4');
+    end
+    
+    if sum(detected_blue, [0 0 960 360], 'all') - sum(detected_blue, [0 360 960 720], 'all') >5000
+        moveup(droneObj, 'distance', 0.4');
+    elseif sum(detected_blue, [0 360 960 720], 'all') - sum(detected_blue, [0 0 960 360], 'all') >5000
+        movedown(droneObj, 'distance', 0.4');
+    end
+    
+    if sum(detected_blue, 'all') >= 300000
+        break;
+    end
+=======
         moveforward(droneObj, 'Distance', 0.5);
     end  
         
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
 end
 
 % 링의 중점과 이미지의 중점좌표를 일치화 후 전진
@@ -38,7 +71,11 @@ while 1
     dst_h = img_hsv(:,:,1);
     ring_mid = findcenter(img_hsv);
     [img_row, img_col, channels] = size(img_hsv);
+<<<<<<< HEAD
+    img_mid = [img_col/2, imgrow/2];
+=======
     img_mid = [img_c/2, img_size(2)/2];
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
     
     if img_mid(2) - ring_mid(2) > 50
         disp('왼쪽으로 이동');
@@ -46,13 +83,26 @@ while 1
     elseif img_mid(2) - ring_mid(2) < -50
         disp('오른쪽으로 이동');
         moveright(droneObj, 'Distance', 0.2);
+<<<<<<< HEAD
+    end
+    
+    if img_mid(1) - ring_mid(1) > 50
+=======
     elseif img_mid(1) - ring_mid(1) > 50
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
         disp('위로 이동');
         moveup(droneObj, 'Distance', 0.2);
     elseif img_mid(1) - ring_mid(1) < -50
         disp('아래로 이동');
         movedown(droneObj, 'Distance', 0.2);
+<<<<<<< HEAD
+    end
+    
+    if img_mid(1)-ring_mid(1) < 50 && img_mid(1)-ring_mid(1)>-50 ...
+            && img_mid(2)-ring_mid(2)<50 && img_mid(2)-ring_mid(2)>-50
+=======
     else
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
         disp('일치화 완료 후 전진');
         moveforward(droneObj, 'Distance', 1.0);
         break;
@@ -66,7 +116,11 @@ while 1
     dst_h = img_hsv(:,:,1);
     detected_red = (dst_h>1)+(dst_h<0.05);
     
+<<<<<<< HEAD
+    if sum(detected_red, 'all') >= 150000
+=======
     if sum(detect_red, 'all') >= 150000
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
         turn(droneObj, deg2rad(-90));
         break;
     else
@@ -80,9 +134,15 @@ land(droneObj);
 % 
 % for row = 1:rows
 %     for col = 1:cols
+<<<<<<< HEAD
+%         if thdown_green(1) < img_hsv(row, col, 1) && img_hsv(row, col, 1) < thup_green(1) ...
+%                 && thdown_green(2) < img_hsv(row, col, 2) && img_hsv(row, col, 2) < thup_green(2) ...
+%                 && thdown_green(3) < img_hsv(row, col, 3) && img_hsv(row, col, 3) < thup_green(3)
+=======
 %         if thdown_blue(1) < img_hsv(row, col, 1) && img_hsv(row, col, 1) < thup_blue(1) ...
 %                 && thdown_blue(2) < img_hsv(row, col, 2) && img_hsv(row, col, 2) < thup_blue(2) ...
 %                 && thdown_blue(3) < img_hsv(row, col, 3) && img_hsv(row, col, 3) < thup_blue(3)
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
 %             dst_hsv1(row, col, :) = [0, 0, 1];
 %             dst_hsv2(row, col, :) = [0, 0, 0];
 %         else
@@ -130,6 +190,24 @@ land(droneObj);
 % 문제 : 어느정도 거리까지 전진해야 원하는 거리의 픽셀값 개수가 될까?
 % 링의 중점을 찾는 코드를 함수로 구현하여 코드 간략화할 필요성 O
 
+<<<<<<< HEAD
+while 1
+       
+    if sum(detected_blue, [0 0 480 720], 'all') - sum(detected_blue, [480 0 960 720], 'all') >5000
+        moveleft(droneObj, 'distance', 0.3');
+    elseif sum(detected_blue, [480 0 960 720], 'all') - sum(detected_blue, [0 0 480 720], 'all') >5000
+        moveright(droneObj, 'distance', 0.3');
+    end
+    
+    if sum(detected_blue, [0 0 960 360], 'all') - sum(detected_blue, [0 360 960 720], 'all') >5000
+        moveup(droneObj, 'distance', 0.3');
+    elseif sum(detected_blue, [0 360 960 720], 'all') - sum(detected_blue, [0 0 960 360], 'all') >5000
+        movedown(droneObj, 'distance', 0.3');
+    end
+        
+    
+end
+=======
 % while 1
 %     
 %     
@@ -140,6 +218,7 @@ land(droneObj);
 %     
 %     
 % end
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
 
 
 % subplot(2, 3, 1); imshow(img);
@@ -152,7 +231,12 @@ land(droneObj);
 % plot(center_col, center_row, 'r*'); hold off
 
 function find_hole = findcenter(img_hsv)
+<<<<<<< HEAD
+
+    % HSV Threshold Green
+=======
     
+>>>>>>> 0cee76684ad5154d1904c901ee23ea03ab36abb7
     thdown_blue = [0.5, 0.4, 0.25];
     thup_blue = [0.75, 1, 1];
     
