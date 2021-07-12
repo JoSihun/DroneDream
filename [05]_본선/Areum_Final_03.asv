@@ -132,7 +132,7 @@ while 1
             dif_y = rows/2 - center_row;    % 카메라 중점 - 원의 중점
             go = 0;
 
-            if((dif_x < -50 || dif_x > 50) && (dif_y < -40 || dif_y > 40))     % 중점의 오차범위가 40 내외가 될 때까지 반복 (값 정확 X)
+            if((dif_x < -50 || dif_x > 50) || (dif_y < -40 || dif_y > 40))     % 중점의 오차범위가 40 내외가 될 때까지 반복 (값 정확 X)
 %                 disp('중심 맞추기');
                 if dif_x <= -300
                     disp('dif_x <= -300');
@@ -177,7 +177,7 @@ while 1
                 go = 1;
             end
             if go == 1
-                moveforward(droneObj, 'distance', 2)
+                moveforward(droneObj, 'distance', 1.5)
                 land(droneObj)
                 break
             end

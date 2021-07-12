@@ -1,3 +1,4 @@
+clear()
 % HSV Threshold Green
 thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
@@ -70,22 +71,22 @@ while 1
         camera_mid_col = cols / 2;
         
         disp('Move to Center Caculating');
-        moveRow = center_row - camera_mid_row;
-        moveCol = center_col - camera_mid_col;
-        if not(-20< moveRow && moveRow < 20) || not(-20< moveCol && moveCol < 20)
-            if moveRow < -20
+        moveRow = center_row - camera_mid_row
+        moveCol = center_col - camera_mid_col
+        if not(-40< moveRow && moveRow < 40) || not(-40< moveCol && moveCol < 40)
+            if moveRow < -40
                 disp('MoveLeft');
                 moveleft(droneObj, 'Distance', 0.2)
             end
-            if moveRow > 20
+            if moveRow > 40
                 disp('MoveRight');
                 moveright(droneObj, 'Distance', 0.2)
             end
-            if moveCol < -20
+            if moveCol < -40
                 disp('MoveUp');
                 moveup(droneObj, 'Distance', 0.2)
             end
-            if moveCol > 20
+            if moveCol > 40
                 disp('MoveDown');
                 movedown(droneObj, 'Distance', 0.2)
             end

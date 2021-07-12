@@ -27,17 +27,17 @@ while 1
 
     % 중앙 점을 따라가는 함수
     if YblueCenter < 330
-        moveup(drone, 0.6);
+        moveup(droneObj, 0.6);
         pause(1);
     elseif YblueCenter > 390
-        movedown(drone, 0.5);
+        movedown(droneObj, 0.5);
         pause(1);
     else
         if XblueCenter < 440
-            moveleft(drone, 0.6);
+            moveleft(droneObj, 0.6);
             pause(1);
         elseif XblueCenter > 520
-            moveright(drone, 0.5);
+            moveright(droneObj, 0.5);
             pause(1);
         else
             break;
