@@ -8,9 +8,9 @@ thup_blue = [0.75, 1, 1];
 
 droneObj = ryze()
 cameraObj = camera(droneObj)
-takeoff(droneObj);
+% takeoff(droneObj);
 % v = VideoReader('test_video2.mp4');
-while hasFrame(v)
+while 1
     % HSV Convert
     disp('HSV Converting');
 %     frame = readFrame(v);
@@ -52,7 +52,11 @@ while hasFrame(v)
     camera_mid_row = rows / 2;
     camera_mid_col = cols / 2;
     
-    imshow(bw2); hold on;
+    subplot(2, 2, 1), imshow(frame); hold on;
+    plot(center_col, center_row, 'r*'); hold off;
+    subplot(2, 2, 3), imshow(bw1); hold on;
+    plot(center_col, center_row, 'r*'); hold off;
+    subplot(2, 2, 4), imshow(bw2); hold on;
     plot(center_col, center_row, 'r*'); hold off;
 %     imshow(bw1);
 %     imshow(bw2);

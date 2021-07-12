@@ -38,7 +38,7 @@ while 1
     dst_h = img_hsv(:,:,1);
     ring_mid = findcenter(img_hsv);
     [img_row, img_col, channels] = size(img_hsv);
-    img_mid = [img_col/2, img_row/2];
+    img_mid = [img_c/2, img_size(2)/2];
     
     if img_mid(2) - ring_mid(2) > 50
         disp('왼쪽으로 이동');
@@ -66,7 +66,7 @@ while 1
     dst_h = img_hsv(:,:,1);
     detected_red = (dst_h>1)+(dst_h<0.05);
     
-    if sum(detected_red, 'all') >= 150000
+    if sum(detect_red, 'all') >= 150000
         turn(droneObj, deg2rad(-90));
         break;
     else

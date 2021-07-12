@@ -6,11 +6,15 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-v = VideoReader('test_video2.mp4');
-while hasFrame(v)
+droneObj = ryze()
+cameraObj = camera(droneObj)
+% takeoff(droneObj);
+% v = VideoReader('test_video2.mp4');
+while 1
     % HSV Convert
     disp('HSV Converting');
-    frame = readFrame(v);
+%     frame = readFrame(v);
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -21,7 +25,6 @@ while hasFrame(v)
     bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
     bw2 = imfill(bw1,'holes');                                                                      % 구멍을 채움
     %구멍을 채우기 전과 후를 비교하여 값이 일정하면 0, 변했으면 1로 변환
-    imshow(bw2);
     for row = 1:rows
         for col = 1:cols
             if bw1(row, col) == bw2(row, col)
@@ -37,7 +40,7 @@ while hasFrame(v)
     center_col = 0;
     for row = 1:rows
         for col = 1:cols
-            if gray_thres_dst(row, col) == 1
+            if bw2(row, col) == 1
                 count_pixel = count_pixel + 1;
                 center_row = center_row + row;
                 center_col = center_col + col;    
@@ -48,6 +51,9 @@ while hasFrame(v)
     center_col = center_col / count_pixel;
     camera_mid_row = rows / 2;
     camera_mid_col = cols / 2;
+    
+    imshow(bw2); hold on;
+    plot(center_col, center_row, 'r*'); hold off;
 %     imshow(bw1);
 %     imshow(bw2);
     

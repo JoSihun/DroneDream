@@ -1,3 +1,5 @@
-droneObj = ryze()
+clear()
+droneObj = ryze();
 takeoff(droneObj);
-cameraObj = camera(droneObj);
+pause(2);
+land(droneObj);
