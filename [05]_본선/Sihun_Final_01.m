@@ -6,7 +6,6 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-clear()
 droneObj = ryze()
 cameraObj = camera(droneObj)
 takeoff(droneObj);
