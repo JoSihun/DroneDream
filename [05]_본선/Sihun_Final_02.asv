@@ -51,7 +51,7 @@ while 1
         
         if sum(bw2) > 100
             % Detecting Center
-            disp('Image Processing 2: Detecting Center');
+            disp('Image Processing 2: Detect Center');
             count_pixel = 0;
             center_row = 0;
             center_col = 0;
@@ -69,17 +69,16 @@ while 1
             camera_mid_row = rows / 2;
             camera_mid_col = cols / 2;
         else
-            disp('Move To Cromakey');
-            if(sumUp > sumDown)                         % 상단 크로마키 > 하단 크로마키
-               moveup(droneObj, 'distance', 0.3);       % 상단으로 이동
-            else                                        % 상단 크로마키 < 하단 크로마키
-                movedown(droneObj, 'distance', 0.3);    % 하단으로 이동
+            disp('error - still cannot find the circle...');
+            if(sum_up > sum_down)
+               moveup(droneObj, 'distance', 0.3);
+            else
+                movedown(droneObj, 'distance', 0.3);
             end
-            
-            if(sumLeft > sumRight)                      % 좌측 크로마키 > 우측 크로마키
-               moveleft(droneObj, 'distance', 0.3);     % 좌측으로 이동
-            else                                        % 좌측 크로마키 < 우측 크로마키
-                moveright(droneObj, 'distance', 0.3);   % 우측으로 이동
+            if(sum_left > sum_right)
+               moveleft(droneObj, 'distance', 0.3);
+            else
+                moveright(droneObj, 'distance', 0.3);
             end
         end
         

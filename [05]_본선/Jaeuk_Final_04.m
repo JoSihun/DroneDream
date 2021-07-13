@@ -6,15 +6,15 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
-% takeoff(droneObj);
-v = VideoReader('test_video2.mp4');
+droneObj = ryze();
+cameraObj = camera(droneObj);
+takeoff(droneObj);
+% v = VideoReader('test_video2.mp4');
 while 1
     % HSV Convert
     disp('HSV Converting');
-    frame = readFrame(v);
-%     frame = snapshot(cameraObj);
+%     frame = readFrame(v);
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
