@@ -50,7 +50,7 @@ while 1
     
     if(find_cir == 1)
         disp('find_cir = 1');
-        try
+%         try
             bw2 = imfill(bw1,'holes');    % 구멍을 채움
             %구멍을 채우기 전과 후를 비교하여 값이 일정하면 0, 변했으면 1로 변환 (0->검은색 1->하얀색)
             for row = 1:rows
@@ -63,6 +63,7 @@ while 1
             
             if(sum(bw2) < 50)
                 disp('Cannot find the circle');
+                moveback(droneObj, 'distance', 0.5);
                 if(sum_up > sum_down)
                    moveup(droneObj, 'distance', 0.3);
                 else
@@ -163,9 +164,9 @@ while 1
     %             imshow(bw2);
             end
 
-        catch exception
-            disp('error');
+%         catch exception
+%             disp('error');
         end
-    end
+%     end
     
 end
