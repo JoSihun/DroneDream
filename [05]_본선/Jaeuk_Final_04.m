@@ -6,15 +6,15 @@ thup_green = [0.40, 240/240, 240/240];
 thdown_blue = [0.5, 0.35, 0.25];
 thup_blue = [0.75, 1, 1];
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
-% takeoff(droneObj);
-v = VideoReader('test_video2.mp4');
+droneObj = ryze();
+cameraObj = camera(droneObj);
+takeoff(droneObj);
+% v = VideoReader('test_video2.mp4');
 while 1
     % HSV Convert
     disp('HSV Converting');
-    frame = readFrame(v);
-%     frame = snapshot(cameraObj);
+%     frame = readFrame(v);
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -25,20 +25,20 @@ while 1
     
     %구멍 위치를 어느정도 캠 가운데로 조정
     while 1
-        if sum(imcrop(detected_blue, [0 0 480 720]), 'all') - sum(imcrop(detected_blue, [480 0 960 720]), 'all') > 5000
+        if sum(imcrop(detected_blue, [0 0 480 720]), 'all') - sum(imcrop(detected_blue, [480 0 960 720]), 'all') > 10000
             disp('캠 위치 왼쪽이동');
-            moveleft(droneObj, 'distance', 0.4');
-        elseif sum(imcrop(detected_blue, [480 0 960 720]), 'all') - sum(imcrop(detected_blue, [0 0 480 720]), 'all') >5000
+            moveleft(droneObj, 'distance', 0.3');
+        elseif sum(imcrop(detected_blue, [480 0 960 720]), 'all') - sum(imcrop(detected_blue, [0 0 480 720]), 'all') > 10000
             disp('캠 위치 오른쪽이동');
-            moveright(droneObj, 'distance', 0.4');
+            moveright(droneObj, 'distance', 0.3');
         end
     
-        if sum(imcrop(detected_blue, [0 0 960 360]), 'all') - sum(imcrop(detected_blue, [0 360 960 720]), 'all') >5000
+        if sum(imcrop(detected_blue, [0 0 960 360]), 'all') - sum(imcrop(detected_blue, [0 360 960 720]), 'all') > 10000
             disp('캠 위치 위쪽이동');
-            moveup(droneObj, 'distance', 0.4');
-        elseif sum(imcrop(detected_blue, [0 360 960 720]), 'all') - sum(imcrop(detected_blue, [0 0 960 360]), 'all') >5000
+            moveup(droneObj, 'distance', 0.3');
+        elseif sum(imcrop(detected_blue, [0 360 960 720]), 'all') - sum(imcrop(detected_blue, [0 0 960 360]), 'all') > 10000
             disp('캠 위치 아래쪽이동');
-            movedown(droneObj, 'distance', 0.4');
+            movedown(droneObj, 'distance', 0.3');
         end
     
         if sum(detected_blue, 'all') >= 250000
