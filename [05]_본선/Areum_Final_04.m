@@ -131,12 +131,12 @@ while 1
                     go = 1;
                 end
 
-%                 if go == 1
-%                     movedown(droneObj, 'distance', 0.4)
-%                     moveforward(droneObj, 'distance', 2)
-%                     land(droneObj)
-%                     break
-%                 end
+                if go == 1
+                    movedown(droneObj, 'distance', 0.4)
+                    moveforward(droneObj, 'distance', 3)
+                    land(droneObj)
+                    break
+                end
 
                 disp('앞으로 전진');
                 movedown(droneObj, 'distance', 0.4)
