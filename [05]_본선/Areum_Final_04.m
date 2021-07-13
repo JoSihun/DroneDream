@@ -29,7 +29,7 @@ while 1
     
     %사분면 처리 (가운데로 대충 이동)
     left = bw1(:,1:cols/2); right = bw1(:,cols/2:end); up = bw1(1:rows/2,:); down = bw1(rows/2:end,:);
-    sum_up = sum(up); sum_down = sum(down); sum_left = sum(left); sum_right = sum(right);
+    sum_up = sum(sum(up)); sum_down = sum(sum(down)); sum_left = sum(sum(left)); sum_right = sum(sum(right));
     find_cir = 0;
     
     if(sum_up == 0)
@@ -61,9 +61,9 @@ while 1
                 end
             end
             
-            if(sum(bw2) < 50)
+            if(sum(sum(bw2)) < 50)
                 disp('Cannot find the circle');
-                moveback(droneObj, 'distance', 0.5);
+                moveback(droneObj, 'distance', 0.2);
                 if(sum_up > sum_down)
                    moveup(droneObj, 'distance', 0.3);
                 else
@@ -115,11 +115,11 @@ while 1
                     end
 
                     if dif_y <= -300
-                        movedown(droneObj, 'distance', 0.5)
-                    elseif dif_y <= -150
                         movedown(droneObj, 'distance', 0.4)
-                    elseif dif_y <= 0
+                    elseif dif_y <= -150
                         movedown(droneObj, 'distance', 0.35)
+                    elseif dif_y <= 0
+                        movedown(droneObj, 'distance', 0.3)
                     elseif dif_y <= 150
                         moveup(droneObj, 'distance', 0.2)
                     elseif dif_y <= 300
@@ -132,7 +132,7 @@ while 1
                 end
 
                 if go == 1
-    %                 movedown(droneObj, 'distance', 0.4)
+                    movedown(droneObj, 'distance', 0.4)
                     moveforward(droneObj, 'distance', 2)
                     land(droneObj)
                     break
