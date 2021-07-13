@@ -7,13 +7,13 @@ purple = [112/255, 48/255, 160/255];
 th_red = rgb2hsv(red);
 th_purple = rgb2hsv(purple);
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
+droneObj = ryze();
+cameraObj = camera(droneObj);
 % takeoff(droneObj);
-frame = imread('dot1.jpg');
-% while 1
+% frame = imread('dot1.jpg');
+while 1
     % HSV Convert
-%     frame = snapshot(cameraObj);
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -34,4 +34,4 @@ frame = imread('dot1.jpg');
         subplot(1, 3, 3), imshow(bw_purple);
         
 %     end
-% end
+end
