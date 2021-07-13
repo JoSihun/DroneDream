@@ -10,15 +10,15 @@ thup_red = [0.0, 240/240, 240/240];
 thdown_purple = [0.25, 35/240, 45/240]; % 보라색 점의 임계값 범위
 thup_purple = [0.3, 240/240, 240/240];
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
-% takeoff(droneObj);
-v = VideoReader('test_video2.mp4');
+droneObj = ryze();
+cameraObj = camera(droneObj);
+takeoff(droneObj);
+% v = VideoReader('test_video2.mp4');
 while 1
     % HSV Convert
     disp('HSV Converting');
-    frame = readFrame(v);
-%     frame = snapshot(cameraObj);
+%     frame = readFrame(v);
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -76,11 +76,11 @@ while 1
             camera_mid_row = rows / 2;
             camera_mid_col = cols / 2;
             
-            dif_x = camera_mid_col - center_col;
-            dif_y = camera_mid_row - center_row;
+            dif_x = camera_mid_col - center_col
+            dif_y = camera_mid_row - center_row
             go = 0;
             
-            if((dif_x <= -50 || dif_x >= 50) && (dif_y <= -40 || dif_y >= 40))
+            if((dif_x <= -50 || dif_x >= 50) || (dif_y <= -40 || dif_y >= 40))
                 disp('중심 맞추기');
                 if dif_x <= -300
                     moveright(droneObj, 'distance', 0.3)
@@ -136,14 +136,12 @@ while 1
 
 
 %%% 이미지 출력
-%             subplot(2, 2, 1), imshow(frame); hold on;
-%             plot(center_col, center_row, 'r*'); hold off;
-%             subplot(2, 2, 3), imshow(bw1); hold on;
-%             plot(center_col, center_row, 'r*'); hold off;
-%             subplot(2, 2, 4), imshow(bw2); hold on;
-%             plot(center_col, center_row, 'r*'); hold off;
-% 
-% 
+            subplot(2, 2, 1), imshow(frame); hold on;
+            plot(center_col, center_row, 'r*'); hold off;
+            subplot(2, 2, 3), imshow(bw1); hold on;
+            plot(center_col, center_row, 'r*'); hold off;
+            subplot(2, 2, 4), imshow(bw2); hold on;
+            plot(center_col, center_row, 'r*'); hold off;
 %             imshow(bw1);
 %             imshow(bw2);
             

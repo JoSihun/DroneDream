@@ -1,0 +1,186 @@
+>> Areum_Final_04
+HSV Converting
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  -91.6809
+
+
+dif_y =
+
+   65.7012
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  -18.6911
+
+
+dif_y =
+
+   22.1848
+
+>> Areum_Final_04
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  165.8750
+
+
+dif_y =
+
+   61.6250
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+   52.2154
+
+
+dif_y =
+
+ -101.5077
+
+중심 맞추기
+HSV Converting
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  191.1961
+
+
+dif_y =
+
+  -30.3412
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+    9.1724
+
+
+dif_y =
+
+   93.9138
+
+중심 맞추기
+HSV Converting
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  241.2050
+
+
+dif_y =
+
+  -42.5466
+
+중심 맞추기
+HSV Converting
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+   69.8814
+
+
+dif_y =
+
+ -108.9661
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  -151
+
+
+dif_y =
+
+  135.6923
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  127.0714
+
+
+dif_y =
+
+   49.9603
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+  -53.3933
+
+
+dif_y =
+
+  -13.0225
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+ -138.7011
+
+
+dif_y =
+
+    7.3678
+
+중심 맞추기
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+   59.0179
+
+
+dif_y =
+
+  -23.8036
+
+중심 맞추기
+HSV Converting
+HSV Converting
+Image Processing 2: Detect Center
+
+dif_x =
+
+    7.1597
+
+
+dif_y =
+
+  -21.8973

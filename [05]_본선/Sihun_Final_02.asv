@@ -25,20 +25,20 @@ while 1
     bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
     
     % Move To Center
-    sumUp = sum(bw1(1:rows/2,:));           % 상단 절반
-    sumDown = sum(bw1(rows/2:end,:));       % 하단 절반
-    sumLeft = sum(bw1(:,1:cols/2));         % 좌측 절반
-    sumRight = sum(bw1(:,cols/2:end));      % 우측 절반
-    
-    
+    sumUp = sum(
+    left = bw1(:,1:cols/2);
+    right = bw1(:,cols/2:end);
+    up = bw1(1:rows/2,:); down = bw1(rows/2:end,:);
+    sum_up = sum(up); sum_down = sum(down); sum_left = sum(left); sum_right = sum(right);
     find_cir = 0;
-    if(sumUp == 0)
+    
+    if(sum_up == 0)
         movedown(droneObj, 'distance', 0.5);
-    elseif(sumDown == 0)
+    elseif(sum_down == 0)
         moveup(droneObj, 'distance', 0.5);
-    elseif(sumLeft == 0)
+    elseif(sum_left == 0)
         moveright(droneObj, 'distance', 0.5);
-    elseif(sumRight == 0)
+    elseif(sum_right == 0)
         moveleft(droneObj, 'distance', 0.5);
     else
         find_cir = 1;
