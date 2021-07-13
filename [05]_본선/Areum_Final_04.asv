@@ -3,12 +3,8 @@ clear()
 thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
 % HSV Threshold Blue
-thdown_blue = [0.5, 0.35, 0.25];        % 파란색 점의 임계값 범위
-thup_blue = [0.75, 1, 1];               
-thdown_red = [0.0, 40/240, 65/240];     % 빨간색 점의 임계값 범위
-thup_red = [0.0, 240/240, 240/240];
-thdown_purple = [0.25, 35/240, 45/240]; % 보라색 점의 임계값 범위
-thup_purple = [0.3, 240/240, 240/240];
+thdown_blue = [0.5, 0.35, 0.25];
+thup_blue = [0.75, 1, 1];
 
 % droneObj = ryze();
 % cameraObj = camera(droneObj);
@@ -29,7 +25,7 @@ while 1
     bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
     
     %사분면 처리 (가운데로 대충 이동)
-    left = bw1(:,1:cols/2); right = bw1(:,cols/2:end); up = bw1(1:rows/2,:); down = bw1(rows/2:end,:);
+    up = bw1(:,1:cols/2); down = bw1(:,cols/2:end); left = bw1(1:rows/2,:); right = bw1(rows/2:end,:);
     sum_up = sum(up); sum_down = sum(down); sum_left = sum(left); sum_right = sum(right);
     find_cir = 0;
     
@@ -76,11 +72,9 @@ while 1
             camera_mid_row = rows / 2;
             camera_mid_col = cols / 2;
             
-            dif_x = camera_mid_col - center_col;
-            dif_y = camera_mid_row - center_row;
             go = 0;
-            
-            if((dif_x <= -50 || dif_x >= 50) && (dif_y <= -40 || dif_y >= 40))
+
+            if((dif_x <= -50 || dif_x >= 50) && (dif_y <= -40 || dif_y >= 40))     % 중점의 오차범위가 40 내외가 될 때까지 반복 (값 정확 X)
                 disp('중심 맞추기');
                 if dif_x <= -300
                     moveright(droneObj, 'distance', 0.3)
