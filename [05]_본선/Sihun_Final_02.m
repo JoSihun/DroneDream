@@ -104,9 +104,8 @@ while 1
         plot(center_col, center_row, 'r*'); hold off;
    catch exception
         disp('There is no Circle Center Coordinates');
-        subplot(2, 2, 1), imshow(frame);
-        subplot(2, 2, 3), imshow(bw1);
-        subplot(2, 2, 4), imshow(bw2);
+        subplot(1, 2, 1), imshow(frame);
+        subplot(1, 2, 2), imshow(bw1);
    end
 %     imshow(bw1);
 %     imshow(bw2);
