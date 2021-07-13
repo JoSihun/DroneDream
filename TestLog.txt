@@ -4,29 +4,120 @@ find_cir = 1
 
 dif_x =
 
-    4.7886
+  179.6475
 
 
 dif_y =
 
-  112.6161
+   66.5158
 
->> Areum_Final_04
-find_cir = 1
-Cannot find the circle
-error
-sum_down = 0
-sum_right = 0
+중심 맞추기
 find_cir = 1
 
 dif_x =
 
- -192.8250
+   52.8596
 
 
 dif_y =
 
-  109.4333
+  -21.0290
 
 중심 맞추기
-sum_left = 0
+find_cir = 1
+
+dif_x =
+
+  -42.7567
+
+
+dif_y =
+
+  122.1567
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+   52.9276
+
+
+dif_y =
+
+   44.2760
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+  -51.1050
+
+
+dif_y =
+
+  -40.6629
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+   36.4195
+
+
+dif_y =
+
+   85.6036
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+  -71.1651
+
+
+dif_y =
+
+   19.2799
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+   10.4312
+
+
+dif_y =
+
+  -73.8108
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+  -89.0554
+
+
+dif_y =
+
+   66.4271
+
+중심 맞추기
+find_cir = 1
+
+dif_x =
+
+  -10.2244
+
+
+dif_y =
+
+  -15.9715
+
+다음 사용 중 오류가 발생함: Areum_Final_04 (136번 라인)
+Unable to receive response from the drone. Ensure that the computer is connected to the drone's WiFi network and try again.
