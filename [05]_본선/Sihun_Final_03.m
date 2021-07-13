@@ -15,14 +15,14 @@ thdown_red1 = [0, 0.35, 0.25];
 thup_red1 = [0.125, 1, 1];
 thdown_red2 = [0.875, 0.35, 0.25];
 thup_red2 = [1, 1, 1];
-thdown_purple = [purple_hsv(1) - 0.125, 0.35, 0.25];
+thdown_purple = [purple_hsv(1) - 0.125, 0.25, 0.25];
 thup_purple = [purple_hsv(1) + 0.125, 1, 1];
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
-frame = imread('dot1.jpg');
-% while 1
-%     frame = snapshot(cameraObj);
+droneObj = ryze();
+cameraObj = camera(droneObj);
+% frame = imread('dot2.jpg');
+while 1
+    frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -38,4 +38,4 @@ frame = imread('dot1.jpg');
     subplot(2, 2, 1), imshow(frame);
     subplot(2, 2, 3), imshow(bw_red);
     subplot(2, 2, 4), imshow(bw_purple);
-% end
+end
