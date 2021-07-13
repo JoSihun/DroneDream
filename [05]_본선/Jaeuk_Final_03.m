@@ -192,9 +192,6 @@ function find_hole = findcenter(img_hsv)
     thdown_blue = [0.5, 0.4, 0.25];
     thup_blue = [0.75, 1, 1];
     
-    thdown_blue = [0.5, 0.4, 0.25];
-    thup_blue = [0.75, 1, 1];
-    
     % 현재 위치의 이미지를 가지고 중점 탐색
     [rows, cols, channels] = size(img_hsv);
     dst_hsv1 = double(zeros(size(img_hsv)));
