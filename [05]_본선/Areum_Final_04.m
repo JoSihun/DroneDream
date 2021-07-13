@@ -98,7 +98,7 @@ while 1
                 dif_y = camera_mid_row - center_row
                 go = 0;
 
-                if((dif_x <= -50 || dif_x >= 50) && (dif_y <= -40 || dif_y >= 40))
+                if((dif_x <= -50 || dif_x >= 50) || (dif_y <= -40 || dif_y >= 40))
                     disp('중심 맞추기');
                     if dif_x <= -300
                         moveright(droneObj, 'distance', 0.3)
