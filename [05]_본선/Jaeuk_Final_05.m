@@ -150,7 +150,6 @@ while 1
                 if isequal(isRed, 1)    % 표식이 빨간색이라면 90도 좌회전
                     turn(droneObj, deg2rad(-90))
                 elseif isequal(isPurple, 1)     % 표식이 보라색이라면 착륙
-                    land(droneObj)
                     break;
                 end
                 
