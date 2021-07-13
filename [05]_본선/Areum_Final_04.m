@@ -133,7 +133,7 @@ while 1
 
                 if go == 1
                     movedown(droneObj, 'distance', 0.4)
-                    moveforward(droneObj, 'distance', 2)
+                    moveforward(droneObj, 'distance', 3)
                     land(droneObj)
                     break
                 end

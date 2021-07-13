@@ -12,7 +12,7 @@ takeoff(droneObj);
 % v = VideoReader('test_video2.mp4');
 while 1
     % HSV Convert
-    disp('HSV Converting');
+    disp('----------------- HSV Converting --------------------');
 %     frame = readFrame(v);
     frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
@@ -69,33 +69,48 @@ while 1
             center_col = center_col / count_pixel;
             camera_mid_row = rows / 2;
             camera_mid_col = cols / 2;
-            disp('Move to Center Caculating');
-            moveRow = center_row - camera_mid_row;
-            moveCol = center_col - camera_mid_col;
-            if not(-40< moveRow && moveRow < 40) || not(-40< moveCol && moveCol < 40)
-                movedown(droneObj, 'distance', 0.4);
-                moveforward(droneObj, 'distance', 2);
-                land(droneObj);
-                break;
-            end
             
+            disp('Calculating Circle Center');
+            moveRow = center_row - camera_mid_row;
+            moveCol = center_col - camera_mid_col;            
         else
-            disp('Move To Cromakey');
+            disp('Move Cromakey To Center');
             if(sumUp > sumDown)                         % 상단 크로마키 > 하단 크로마키
-               moveup(droneObj, 'distance', 0.2);       % 상단으로 이동
+                moveup(droneObj, 'distance', 0.2);       % 상단으로 이동
             else                                        % 상단 크로마키 < 하단 크로마키
                 movedown(droneObj, 'distance', 0.2);    % 하단으로 이동
             end
             
             if(sumLeft > sumRight)                      % 좌측 크로마키 > 우측 크로마키
-               moveleft(droneObj, 'distance', 0.2);     % 좌측으로 이동
+                moveleft(droneObj, 'distance', 0.2);     % 좌측으로 이동
             else                                        % 좌측 크로마키 < 우측 크로마키
                 moveright(droneObj, 'distance', 0.2);   % 우측으로 이동
             end
         end     
     end
     
-   try
+    try
+        disp('Move Drone Very Carefully!!!');
+        if (-40< moveRow && moveRow < 40) && (-40< moveCol && moveCol < 40)
+            movedown(droneObj, 'distance', 0.4);
+            moveforward(droneObj, 'distance', 2);
+            land(droneObj);
+            break;
+        elseif moveRow < -40
+            disp('MoveUp');
+            moveup(droneObj, 'Distance', 0.2)
+        elseif 40 < moveRow
+            disp('MoveDown');
+            movedown(droneObj, 'Distance', 0.2)
+        elseif moveCol < -40
+            disp('MoveLeft');
+            moveleft(droneObj, 'Distance', 0.2)
+        elseif 40 < moveCol
+            disp('MoveRight');
+            moveright(droneObj, 'Distance', 0.2)
+            
+        end
+        disp('There is Circle Center Coordinates');
         subplot(2, 2, 1), imshow(frame); hold on;
         plot(center_col, center_row, 'r*'); hold off;
         subplot(2, 2, 3), imshow(bw1); hold on;
@@ -104,8 +119,8 @@ while 1
         plot(center_col, center_row, 'r*'); hold off;
    catch exception
         disp('There is no Circle Center Coordinates');
-        subplot(1, 2, 1), imshow(frame);
-        subplot(1, 2, 2), imshow(bw1);
+        subplot(2, 2, 1), imshow(frame);
+        subplot(2, 2, 2), imshow(bw1);
    end
 %     imshow(bw1);
 %     imshow(bw2);
