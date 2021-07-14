@@ -11,16 +11,19 @@ thup_blue = [0.75, 1, 1];
 red_hsv = rgb2hsv([255/255, 0, 0]);
 purple_hsv = rgb2hsv([112/255, 48/255, 160/255]);
 
-% thdown_red1 = [0, 0.35, 0.25];
-% thup_red1 = [0.125, 1, 1];
-% thdown_red2 = [0.875, 0.35, 0.25];
-% thup_red2 = [1, 1, 1];
 thdown_red1 = [0, 0.37, 0.37];
 thup_red1 = [0.125, 1, 1];
 thdown_red2 = [0.875, 0.37, 0.37];
 thup_red2 = [1, 1, 1];
 thdown_purple = [purple_hsv(1) - 0.125, 0.25, 0.25];
 thup_purple = [purple_hsv(1) + 0.125, 1, 1];
+
+thdown_red1 = [0, 0.25, 0.25];
+thup_red1 = [0.025, 1, 1];
+thdown_red2 = [0.975, 0.25, 0.25];
+thup_red2 = [1, 1, 1];
+thdown_purple = [0.725, 0.25, 0.25];
+thup_purple = [0.85, 1, 1];
 
 droneObj = ryze();
 cameraObj = camera(droneObj);
@@ -34,34 +37,11 @@ while 1
     [rows, cols, channels] = size(src_hsv);
 
     % Image Preprocessing
-    bw_red = ((thdown_red1(1) < src_h)&(src_h < thup_red1(1)) & (thdown_red1(2) < src_s)&(src_s < thup_red1(2)) & (thdown_red1(3) < src_v)&(src_v < thup_red1(3))) ...% 빨간색1 검출
-        + ((thdown_red2(1) < src_h)&(src_h < thup_red2(1)) & (thdown_red2(2) < src_s)&(src_s < thup_red2(2)) & (thdown_red2(3) < src_v)&(src_v < thup_red2(3)));      % 빨간색2 검출
+    bw_red = (((thdown_red1(1) < src_h)&(src_h < thup_red1(1)) & (thdown_red1(2) < src_s)&(src_s < thup_red1(2)) & (thdown_red1(3) < src_v)&(src_v < thup_red1(3)))) ...% 빨간색1 검출
+        + (((thdown_red2(1) < src_h)&(src_h < thup_red2(1)) & (thdown_red2(2) < src_s)&(src_s < thup_red2(2)) & (thdown_red2(3) < src_v)&(src_v < thup_red2(3))));      % 빨간색2 검출
     bw_purple = (thdown_purple(1) < src_h)&(src_h < thup_purple(1)) & (thdown_purple(2) < src_s)&(src_s < thup_purple(2)) & (thdown_purple(3) < src_v)&(src_v < thup_purple(3));   % 보라색 검출
     subplot(2, 2, 1), imshow(frame);
     subplot(2, 2, 3), imshow(bw_red);
     subplot(2, 2, 4), imshow(bw_purple);
     
-    if(sum(bw_purple, 'all') > 10000)
-        disp('10000 초과')
-    elseif(sum(bw_purple, 'all') > 9000)
-        disp('9000 초과')
-    elseif(sum(bw_purple, 'all') > 8000)
-        disp('8000 초과')
-    elseif(sum(bw_purple, 'all') > 7000)
-        disp('7000 초과')
-    elseif(sum(bw_purple, 'all') > 6000)
-        disp('6000 초과')
-    elseif(sum(bw_purple, 'all') > 800)
-        disp('800 초과')
-    elseif(sum(bw_purple, 'all') > 600)
-        disp('600 초과')
-    elseif(sum(bw_purple, 'all') > 400)
-        disp('400 초과')
-    elseif(sum(bw_purple, 'all') > 200)
-        disp('200 초과')
-    elseif(sum(bw_purple, 'all') > 100)
-        disp('100 초과')    
-    else
-        disp('100 이하')
-    end
 end

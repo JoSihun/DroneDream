@@ -103,6 +103,7 @@ while 1
     try
         disp('Move Drone Very Carefully!!!');
         if (-40< moveRow && moveRow < 40) && (-40< moveCol && moveCol < 40)
+            ActivateAction = 1;
             movedown(droneObj, 'distance', 0.4);
             
             while 1
