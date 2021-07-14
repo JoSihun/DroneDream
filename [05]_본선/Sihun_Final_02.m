@@ -35,7 +35,14 @@ while 1
 
     % Image Preprocessing
     bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
-%     if sum(bw1, 'all') == 0
+    if sum(bw1, 'all') < 5000
+        moveforward(drone, 'distance', 0.25);
+        if jsfklajsklfdjlajsl
+            right
+        else
+            left
+        end
+    end
 %         bw1 = double(zeros(size(src_hsv)));
 %     end
     
@@ -113,7 +120,7 @@ while 1
             movedown(droneObj, 'distance', 0.2);
             bw2_pix_num = sum(bw2, 'all');
             if 85000 < bw2_pix_num
-                moveforward(droneObj, 'distance', 2);
+                moveforward(droneObj, 'distance', 1.75);
                 disp('Error Check Point 1');
                 while 1
                     frame = snapshot(cameraObj);
@@ -143,15 +150,15 @@ while 1
                 
                 disp('Error Check Point 4');
                 % 빨간색 혹은 보라색 검출할 때까지 전진
-                if (sum(bw_red, 'all') > 4000)                          % 빨간색이 검출되면
-                    disp('RED Color Detected!!! Drone Turn Left');
-                    turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
-                    moveforward(droneObj, 'distance', 1.25);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
-                    break;
-                elseif(sum(bw_purple, 'all') > 4000)                    % 보라색이 검출되면
-                    disp('Purple Color Detected!!! Drone Landing');
+                if (sum(bw_purple, 'all') > 4000)                          % 보라색이 검출되면
+                    disp('Purple Color Detected!!! Drone Turn Left');
                     land(droneObj);                                     % Landing
                     return;                                             % 프로그램 종료
+                elseif(sum(bw_red, 'all') > 4000)                       % 빨간색이 검출되면
+                    disp('RED Color Detected!!! Drone Landing');
+                    turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
+                    moveforward(droneObj, 'distance', 0.8);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
+                    break;                    
                 end
             elseif (bw2_pix_num < 85000)
                 moveforward(droneObj, 'distance', 0.5);                 % 맵에 따라서 1m단위로 링을 배치한다면 0.5, 아니라면 0.2 or 0.25

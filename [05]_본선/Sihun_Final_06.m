@@ -29,9 +29,12 @@ while 1
 
     disp('Error Check Point 2');
     % Image Preprocessing
-    bw_red = (thdown_red1(1) < src_h & src_h < thup_red1(1)) ...        % 빨간색1범위 검출
-           + (thdown_red2(1) < src_h & src_h < thup_red2(1));           % 빨간색2범위 검출
-    bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));      % 보라색범위 검출
+%     bw_red = (thdown_red1(1) < src_h & src_h < thup_red1(1)) ...        % 빨간색1범위 검출
+%            + (thdown_red2(1) < src_h & src_h < thup_red2(1));           % 빨간색2범위 검출
+%     bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));      % 보라색범위 검출
+    bw_red = (thdown_red1(1) < src_h)&(src_h < thup_red1(1)) & (thdown_red1(2) < src_s)&(src_s < thup_red1(2)) & (thdown_red1(3) < src_v)&(src_v < thup_red1(3)) ...
+            | (thdown_red2(1) < src_h)&(src_h < thup_red2(1)) & (thdown_red2(2) < src_s)&(src_s < thup_red2(2)) & (thdown_red2(3) < src_v)&(src_v < thup_red2(3)); 
+    bw_purple = (thdown_purple(1) < src_h)&(src_h < thup_purple(1)) & (thdown_purple(2) < src_s)&(src_s < thup_purple(2)) & (thdown_purple(3) < src_v)&(src_v < thup_purple(3));
 
     disp('Error Check Point 3');
     subplot(2, 2, 1), imshow(frame);
