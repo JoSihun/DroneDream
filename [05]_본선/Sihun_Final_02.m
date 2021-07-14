@@ -2,6 +2,7 @@ clear()
 % HSV Threshold Green
 thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
+
 % HSV Threshold Blue
 thdown_blue = [0.5, 0.25, 0.25];
 thup_blue = [0.75, 1, 1];
@@ -19,11 +20,9 @@ thup_purple = [0.85, 1, 1];
 droneObj = ryze();
 cameraObj = camera(droneObj);
 takeoff(droneObj);
-% v = VideoReader('test_video2.mp4');
 while 1
     % HSV Convert
     disp('----------------- HSV Converting --------------------');
-%     frame = readFrame(v);
     frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
@@ -32,9 +31,7 @@ while 1
     [rows, cols, channels] = size(src_hsv);
 
     % Image Preprocessing
-
-%         bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
-        bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
+    bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
     if sum(bw1, 'all') == 0
         bw1 = double(zeros(size(src_hsv)));
     end
@@ -54,8 +51,8 @@ while 1
     elseif(sumRight == 0)                           % 우측에 크로마키 없으면
         moveleft(droneObj, 'distance', 0.5);        % 좌측으로 이동
     else                                            % 4개의 사분면 모두에 크로마키가 존재하면 원 검출
-        bw2 = imfill(bw1,'holes');      % 파란색 배경 안 원을 채움(내부가 채워진 사각형)        
         % 구멍을 채우기 전후를 비교, 원이 아닌부분 0(검은색), 원 부분 1(흰색)
+        bw2 = imfill(bw1,'holes');                  % 파란색 배경 안 원을 채움(내부가 채워진 사각형)        
         for row = 1:rows
             for col = 1:cols
                 if bw1(row, col) == bw2(row, col)
@@ -91,7 +88,7 @@ while 1
             disp('Move Cromakey To Center');
             if(sumUp > sumDown)                         % 상단 크로마키 > 하단 크로마키
                 disp('MoveUp');
-                moveup(droneObj, 'distance', 0.2);       % 상단으로 이동
+                moveup(droneObj, 'distance', 0.2);      % 상단으로 이동
             else                                        % 상단 크로마키 < 하단 크로마키
                 disp('MoveDown');
                 movedown(droneObj, 'distance', 0.2);    % 하단으로 이동
@@ -99,7 +96,7 @@ while 1
             
             if(sumLeft > sumRight)                      % 좌측 크로마키 > 우측 크로마키
                 disp('MoveLeft');
-                moveleft(droneObj, 'distance', 0.2);     % 좌측으로 이동
+                moveleft(droneObj, 'distance', 0.2);	% 좌측으로 이동
             else                                        % 좌측 크로마키 < 우측 크로마키
                 disp('MoveRight');
                 moveright(droneObj, 'distance', 0.2);   % 우측으로 이동
@@ -111,11 +108,8 @@ while 1
         disp('Move Drone Very Carefully!!!');
         if (-100 < moveRow && moveRow < 100) && (-100 < moveCol && moveCol < 100)
             movedown(droneObj, 'distance', 0.2);
-%             moveforward(droneObj, 'distance', 1);                   % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
-            
-            % 여기가 잘 안되는 것 같음
             bw2_pix_num = sum(bw2, 'all')
-            if (150000 < bw2_pix_num) && (bw2_pix_num < 300000)         % 2단계
+            if (150000 < bw2_pix_num) && (bw2_pix_num < 300000)
                 moveforward(droneObj, 'distance', 1.4);
                 frame = snapshot(cameraObj);
                 src_hsv = rgb2hsv(frame);
@@ -124,16 +118,15 @@ while 1
                 src_v = src_hsv(:,:,3);
                 
                 % Image Preprocessing
-%                 bw_red = (((thdown_red1(1) < src_h)&(src_h < thup_red1(1)) & (thdown_red1(2) < src_s)&(src_s < thup_red1(2)) & (thdown_red1(3) < src_v)&(src_v < thup_red1(3)))) ...% 빨간색1 검출
-%                         + (((thdown_red2(1) < src_h)&(src_h < thup_red2(1)) & (thdown_red2(2) < src_s)&(src_s < thup_red2(2)) & (thdown_red2(3) < src_v)&(src_v < thup_red2(3))));      % 빨간색2 검출
-%                 bw_purple = (thdown_purple(1) < src_h)&(src_h < thup_purple(1)) & (thdown_purple(2) < src_s)&(src_s < thup_purple(2)) & (thdown_purple(3) < src_v)&(src_v < thup_purple(3));   % 보라색 검출
-                bw_red = ((thdown_red1(1) < src_h) & (src_h < thup_red1(1))) + ((thdown_red2(1) < src_h) & (src_h < thup_red2(1)));     % 빨간색2 검출
-                bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));   % 보라색 검출
+                bw_red = ((thdown_red1(1) < src_h) & (src_h < thup_red1(1))) ...        % 빨간색1범위 검출
+                       + ((thdown_red2(1) < src_h) & (src_h < thup_red2(1)));           % 빨간색2범위 검출
+                bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));      % 보라색범위 검출
                 
                 subplot(2, 2, 1), imshow(frame);
                 subplot(2, 2, 2), imshow(frame);
                 subplot(2, 2, 3), imshow(bw_red);
                 subplot(2, 2, 4), imshow(bw_purple);
+                
                 % 빨간색 혹은 보라색 검출할 때까지 전진
                 if (sum(bw_red, 'all') > 4000)                          % 빨간색이 검출되면
                     disp('RED Color Detected!!! Drone Turn Left');
@@ -178,7 +171,6 @@ while 1
         subplot(2, 2, 1), imshow(frame);
         subplot(2, 2, 2), imshow(frame);
         subplot(2, 2, 3), imshow(bw1);
-%         subplot(2, 2, 4), imshow(bw2);
     end
     pause(1);
 end
