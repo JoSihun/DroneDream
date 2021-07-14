@@ -4,12 +4,18 @@ thdown_blue = [0.5, 0.35, 0.25];        % 파란색의 임계값 범위
 thup_blue = [0.75, 1, 1];             
 red = rgb2hsv([255/255, 0, 0]);                 % [0, 1, 1]
 purple = rgb2hsv([112/255, 48/255, 160/255]);   % [0.76, 0.7, 0.6]
-thdown_red1 = [0, 0.37, 0.37];
-thup_red1 = [0.125, 1, 1];
-thdown_red2 = [0.875, 0.37, 0.37];
+% thdown_red1 = [0, 0.37, 0.37];
+% thup_red1 = [0.125, 1, 1];
+% thdown_red2 = [0.875, 0.37, 0.37];
+% thup_red2 = [1, 1, 1];
+% thdown_purple = [purple(1) - 0.125, 0.25, 0.25];
+% thup_purple = [purple(1) + 0.125, 1, 1];
+thdown_red1 = [0, 0.5, 0.5];
+thup_red1 = [0.025, 1, 1];
+thdown_red2 = [0.975, 0.5, 0.5];
 thup_red2 = [1, 1, 1];
-thdown_purple = [purple(1) - 0.125, 0.25, 0.25];
-thup_purple = [purple(1) + 0.125, 1, 1];
+thdown_purple = [0.725, 0.25, 0.25];
+thup_purple = [0.85, 1, 1];
 
 droneObj = ryze();
 cameraObj = camera(droneObj);
@@ -38,6 +44,7 @@ while(1)
 %         moveforward(droneObj, 'distance', 0.7);
         land(droneObj);
 %         disp('왼쪽으로 회전!');
+
         break;
     elseif(sum(bw_purple, 'all') > 8000)
         land(droneObj);
