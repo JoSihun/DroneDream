@@ -11,10 +11,10 @@ thup_red2 = [1, 1, 1];
 thdown_purple = [purple(1) - 0.125, 0.25, 0.25];
 thup_purple = [purple(1) + 0.125, 1, 1];
 
-% droneObj = ryze();
-% cameraObj = camera(droneObj);
-% takeoff(droneObj);
-frame = imread('dot1.jpg');
+droneObj = ryze();
+cameraObj = camera(droneObj);
+takeoff(droneObj);
+% frame = imread('dot1.jpg');
 
 % moveforward(droneObj, 'distacne', 1.75);
 while(1)
@@ -38,7 +38,8 @@ while(1)
 
     if(sum(bw_red, 'all') > 8000)
         turn(droneObj, deg2rad(-90));
-        moveforward(droneObj, 'distance', 0.7);
+%         moveforward(droneObj, 'distance', 0.7);
+        land(droneObj);
         break;
     elseif(sum(bw_purple, 'all') > 8000)
         land(droneObj);
