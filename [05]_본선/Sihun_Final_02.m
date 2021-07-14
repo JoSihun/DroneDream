@@ -108,6 +108,7 @@ while 1
         elseif 40 < moveCol
             disp('MoveRight');
             moveright(droneObj, 'Distance', 0.2)
+        else 
             
         end
         disp('There is Circle Center Coordinates');
