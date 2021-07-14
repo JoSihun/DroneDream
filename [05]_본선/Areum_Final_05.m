@@ -17,13 +17,13 @@ thup_red2 = [1, 1, 1];
 thdown_purple = [0.725, 0.25, 0.25];
 thup_purple = [0.85, 1, 1];
 
-droneObj = ryze();
-cameraObj = camera(droneObj);
-takeoff(droneObj);
-% frame = imread('dot1.jpg');
+% droneObj = ryze();
+% cameraObj = camera(droneObj);
+% takeoff(droneObj);
+frame = imread('dot1.jpg');
 
 % moveforward(droneObj, 'distacne', 1.75);
-moveup(droneObj, 'distance', 0.3);
+% moveup(droneObj, 'distance', 0.3);
 while(1)
     frame = snapshot(cameraObj);
     src_hsv = rgb2hsv(frame);
@@ -35,6 +35,7 @@ while(1)
     bw_red = (thdown_red1(1) < src_h)&(src_h < thup_red1(1)) & (thdown_red1(2) < src_s)&(src_s < thup_red1(2)) & (thdown_red1(3) < src_v)&(src_v < thup_red1(3)) ...
         | (thdown_red2(1) < src_h)&(src_h < thup_red2(1)) & (thdown_red2(2) < src_s)&(src_s < thup_red2(2)) & (thdown_red2(3) < src_v)&(src_v < thup_red2(3)); 
     bw_purple = (thdown_purple(1) < src_h)&(src_h < thup_purple(1)) & (thdown_purple(2) < src_s)&(src_s < thup_purple(2)) & (thdown_purple(3) < src_v)&(src_v < thup_purple(3));
+    
     subplot(1, 3, 1), imshow(frame);
     subplot(1, 3, 2), imshow(bw_red);
     subplot(1, 3, 3), imshow(bw_purple);
@@ -44,12 +45,11 @@ while(1)
 %         moveforward(droneObj, 'distance', 0.7);
         land(droneObj);
 %         disp('왼쪽으로 회전!');
-
         break;
     elseif(sum(bw_purple, 'all') > 8000)
         land(droneObj);
         return;
     else
-        moveforward(droneObj, 'distance', 0.2);
+        moveforward(droneObj, 'distance', 0.5);
     end
 end
