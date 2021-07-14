@@ -17,13 +17,31 @@ thup_red2 = [1, 1, 1];
 thdown_purple = [0.725, 0.25, 0.25];
 thup_purple = [0.85, 1, 1];
 
-droneObj = ryze();
-cameraObj = camera(droneObj);
-takeoff(droneObj);
+% % 본선대회용
+% % HSV Threshold Blue
+% thdown_blue = [0.55, 0.43, 0.25];
+% thup_blue = [0.75, 1, 1];
+% 
+% % HSV Threshold Red
+% thdown_red1 = [0, 0.65, 0.25];
+% thup_red1 = [0.025, 1, 1];
+% thdown_red2 = [0.975, 0.65, 0.25];
+% thup_red2 = [1, 1, 1];
+% 
+% % HSV Threshold Purple
+% thdown_purple = [0.725, 0.25, 0.25];
+% thup_purple = [0.85, 1, 1];
+
+
 right_cnt = 0;
 left_cnt = 0;
 up_cnt = 0;
 down_cnt = 0;
+detectSignActivation = 0
+
+droneObj = ryze();
+cameraObj = camera(droneObj);
+takeoff(droneObj);
 while 1
     % HSV Convert
     disp('----------------- HSV Converting --------------------');
@@ -38,8 +56,8 @@ while 1
     [rows, cols, channels] = size(src_hsv);
 
     % Image Preprocessing
-    bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
-    if sum(bw1, 'all') < 5000
+    bw1 = (thdown_blue(1) < src_h) & (src_h < thup_blue(1)) & (thdown_blue(2) < src_s) & (src_s < thup_blue(2)); % 파란색 검출 
+    if sum(bw1, 'all') < 5000 && detectSignActivation == 0
         if right_cnt < 3
             right_cnt = right_cnt + 1;
             moveright(droneObj, 'distance', 0.5);
@@ -176,46 +194,67 @@ while 1
             movedown(droneObj, 'distance', 0.2);
             bw2_pix_num = sum(bw2, 'all');
             if 85000 < bw2_pix_num
+                disp('Circle And Drone Center Matched!! Try Passing Ring');
                 moveforward(droneObj, 'distance', 1.75);
-                disp('Error Check Point 1');
                 while 1
                     frame = snapshot(cameraObj);
                     if sum(frame, 'all') == 0
                         continue;
-                    else
+                    end
+                    src_hsv = rgb2hsv(frame);
+                    src_h = src_hsv(:, :, 1);
+                    src_s = src_hsv(:, :, 2);
+                    src_v = src_hsv(:, :, 3);
+
+                    % Image Preprocessing
+                    bw_red = ((thdown_red1(1) < src_h & src_h < thup_red1(1)) & (thdown_red1(2) < src_s & src_s < thup_red1(2))) ...            % 빨간색1범위 검출
+                           + ((thdown_red2(1) < src_h & src_h < thup_red2(1)) & (thdown_red2(2) < src_s & src_s < thup_red2(2)));               % 빨간색2범위 검출
+                    bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1)) & (thdown_purple(2) < src_s) & (src_s < thup_purple(2));  % 보라색범위 검출           
+
+                    subplot(2, 2, 1), imshow(frame);
+                    subplot(2, 2, 2), imshow(frame);
+                    subplot(2, 2, 3), imshow(bw_red);
+                    subplot(2, 2, 4), imshow(bw_purple);
+
+                    % 빨간색 혹은 보라색 검출할 때까지 전진
+                    if (sum(bw_purple, 'all') > 4000)                          % 보라색이 검출되면
+                        disp('Purple Color Detected!!! Drone Turn Left');
+                        land(droneObj);                                     % Landing
+                        return;                                             % 프로그램 종료
+                    elseif(sum(bw_red, 'all') > 4000)                       % 빨간색이 검출되면
+                        disp('RED Color Detected!!! Drone Landing');
+                        turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
+                        moveforward(droneObj, 'distance', 0.85);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
+                        right_cnt = 0;
+                        left_cnt = 0;
+                        up_cnt = 0;
+                        down_cnt = 0;
                         break;
+                    else
+                        % 여기에 표식탐색 기능 추가
+                        disp('Missing Sign!! Try Detecting Sign');
+                        if down_cnt < 1
+                            down_cnt = down_cnt + 1;
+                            movedown(droneObj, 'distance', 0.3);
+                            continue;
+                        elseif up_cnt < 1
+                            up_cnt = up_cnt + 1;
+                            moveup(droneObj, 'distance', 0.6);
+                            continue;
+                        elseif left_cnt < 1
+                            left_cnt = left_cnt + 1;
+                            movedown(droneObj, 'distance', 0.3);
+                            moveleft(droneObj, 'distance', 0.3);
+                            continue;
+                        elseif right_cnt < 1
+                            right_cnt = right_cnt + 1;
+                            moveright(droneObj, 'distance', 0.6);
+                            continue;
+                        end
                     end
                 end
                 
-                src_hsv = rgb2hsv(frame);
-                src_h = src_hsv(:, :, 1);
-                src_s = src_hsv(:, :, 2);
-                src_v = src_hsv(:, :, 3);
-                
-                disp('Error Check Point 2');
-                % Image Preprocessing
-                bw_red = (thdown_red1(1) < src_h & src_h < thup_red1(1)) ...        % 빨간색1범위 검출
-                       + (thdown_red2(1) < src_h & src_h < thup_red2(1));           % 빨간색2범위 검출
-                bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));      % 보라색범위 검출
-                
-                disp('Error Check Point 3');
-                subplot(2, 2, 1), imshow(frame);
-                subplot(2, 2, 2), imshow(frame);
-                subplot(2, 2, 3), imshow(bw_red);
-                subplot(2, 2, 4), imshow(bw_purple);
-                
-                disp('Error Check Point 4');
-                % 빨간색 혹은 보라색 검출할 때까지 전진
-                if (sum(bw_purple, 'all') > 4000)                          % 보라색이 검출되면
-                    disp('Purple Color Detected!!! Drone Turn Left');
-                    land(droneObj);                                     % Landing
-                    return;                                             % 프로그램 종료
-                elseif(sum(bw_red, 'all') > 4000)                       % 빨간색이 검출되면
-                    disp('RED Color Detected!!! Drone Landing');
-                    turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
-                    moveforward(droneObj, 'distance', 0.85);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
-                    break;                    
-                end
+
             elseif (bw2_pix_num < 85000)
                 moveforward(droneObj, 'distance', 0.5);                 % 맵에 따라서 1m단위로 링을 배치한다면 0.5, 아니라면 0.2 or 0.25
             end      
