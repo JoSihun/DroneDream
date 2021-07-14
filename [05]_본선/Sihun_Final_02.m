@@ -4,7 +4,7 @@ thdown_green = [0.25, 40/240, 80/240];
 thup_green = [0.40, 240/240, 240/240];
 
 % HSV Threshold Blue
-thdown_blue = [0.5, 0.25, 0.25];
+thdown_blue = [0.6, 0.25, 0.25];
 thup_blue = [0.75, 1, 1];
 
 % HSV Threshold Red
@@ -20,6 +20,10 @@ thup_purple = [0.85, 1, 1];
 droneObj = ryze();
 cameraObj = camera(droneObj);
 takeoff(droneObj);
+right_cnt = 0;
+left_cnt = 0;
+up_cnt = 0;
+down_cnt = 0;
 while 1
     % HSV Convert
     disp('----------------- HSV Converting --------------------');
@@ -36,12 +40,64 @@ while 1
     % Image Preprocessing
     bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
     if sum(bw1, 'all') < 5000
-        moveforward(drone, 'distance', 0.25);
-        if jsfklajsklfdjlajsl
-            right
-        else
-            left
+        if right_cnt < 3
+            right_cnt = right_cnt + 1;
+            moveright(droneObj, 'distance', 0.5);
+            continue;
+        elseif right_cnt == 3
+            if up_cnt < 3
+                up_cnt = up_cnt + 1;
+                moveup(droneObj, 'distance', 0.5);
+                continue;
+            elseif up_cnt == 3
+                up_cnt = up_cnt + 1;
+                movedown(droneObj, 'distance', 1.5);
+                continue;
+            elseif down_cnt < 3
+                down_cnt = down_cnt + 1;
+                movedown(droneObj, 'distance', 0.5);
+                continue;
+            elseif down_cnt == 3
+                down_cnt = down_cnt + 1;
+                moveup(droneObj, 'distance', 1.5);
+                continue;
+            else
+                right_cnt = right_cnt + 1;
+                moveleft(droneObj, 'distnace', 1.5);
+                continue;
+            end
+        elseif left_cnt < 3
+            left_cnt = left_cnt + 1;
+            moveleft(droneObj, 'distance', 0.5);
+            continue;
+        elseif left_cnt == 3
+            if up_cnt < 3
+                up_cnt = up_cnt + 1;
+                moveup(droneObj, 'distance', 0.5);
+                continue;
+            elseif up_cnt == 3
+                up_cnt = up_cnt + 1;
+                movedown(droneObj, 'distance', 1.5);
+                continue;
+            elseif down_cnt < 3
+                down_cnt = down_cnt + 1;
+                movedown(droneObj, 'distance', 0.5);
+                continue;
+            elseif down_cnt == 3
+                down_cnt = down_cnt + 1;
+                moveup(droneObj, 'distance', 1.5);
+                continue;
+            else
+                left_cnt = left_cnt + 1;
+                moveright(droneObj, 'distnace', 1.5);
+                continue;
+            end
         end
+    else
+        right_cnt = 0;
+        left_cnt = 0;
+        up_cnt = 0;
+        down_cnt = 0;
     end
 %         bw1 = double(zeros(size(src_hsv)));
 %     end
@@ -157,7 +213,7 @@ while 1
                 elseif(sum(bw_red, 'all') > 4000)                       % 빨간색이 검출되면
                     disp('RED Color Detected!!! Drone Landing');
                     turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
-                    moveforward(droneObj, 'distance', 0.8);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
+                    moveforward(droneObj, 'distance', 0.85);            % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
                     break;                    
                 end
             elseif (bw2_pix_num < 85000)
