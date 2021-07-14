@@ -1,36 +1,36 @@
 clear()
-% HSV Threshold Green
-thdown_green = [0.25, 40/240, 80/240];
-thup_green = [0.40, 240/240, 240/240];
-
-% HSV Threshold Blue
-thdown_blue = [0.5, 0.25, 0.25];
-thup_blue = [0.75, 1, 1];
-
-% HSV Threshold Red
-thdown_red1 = [0, 0.25, 0.25];
-thup_red1 = [0.025, 1, 1];
-thdown_red2 = [0.975, 0.25, 0.25];
-thup_red2 = [1, 1, 1];
-
-% HSV Threshold Purple
-thdown_purple = [0.725, 0.25, 0.25];
-thup_purple = [0.85, 1, 1];
-
-% % 본선대회용
+% % HSV Threshold Green
+% thdown_green = [0.25, 40/240, 80/240];
+% thup_green = [0.40, 240/240, 240/240];
+% 
 % % HSV Threshold Blue
-% thdown_blue = [0.55, 0.43, 0.25];
+% thdown_blue = [0.5, 0.25, 0.25];
 % thup_blue = [0.75, 1, 1];
 % 
 % % HSV Threshold Red
-% thdown_red1 = [0, 0.65, 0.25];
+% thdown_red1 = [0, 0.25, 0.25];
 % thup_red1 = [0.025, 1, 1];
-% thdown_red2 = [0.975, 0.65, 0.25];
+% thdown_red2 = [0.975, 0.25, 0.25];
 % thup_red2 = [1, 1, 1];
 % 
 % % HSV Threshold Purple
 % thdown_purple = [0.725, 0.25, 0.25];
 % thup_purple = [0.85, 1, 1];
+
+% 본선대회용
+% HSV Threshold Blue
+thdown_blue = [0.55, 0.43, 0.25];
+thup_blue = [0.75, 1, 1];
+
+% HSV Threshold Red
+thdown_red1 = [0, 0.65, 0.25];
+thup_red1 = [0.025, 1, 1];
+thdown_red2 = [0.975, 0.65, 0.25];
+thup_red2 = [1, 1, 1];
+
+% HSV Threshold Purple
+thdown_purple = [0.725, 0.25, 0.25];
+thup_purple = [0.85, 1, 1];
 
 right_cnt = 0;
 left_cnt = 0;
@@ -259,6 +259,7 @@ while 1
                     elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
+                        moveforward(droneObj, 'distance', 0.5);
                         right_cnt = 0;
                         left_cnt = 0;
                         up_cnt = 0;
@@ -534,6 +535,7 @@ while 1
                     elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
+                        moveforward(droneObj, 'distance', 1);
                         activeForward = 1;
                         loopBreak = 1;
                         right_cnt = 0;
@@ -785,7 +787,7 @@ while 1
             bw2_pix_num = sum(bw2, 'all');
             if 40000 < bw2_pix_num
                 disp('Circle And Drone Center Matched!! Try Passing Ring');
-                moveforward(droneObj, 'distance', 1.25);
+                moveforward(droneObj, 'distance', 2.25);
                 while 1
                     frame = snapshot(cameraObj);
                     if sum(frame, 'all') == 0
@@ -814,6 +816,7 @@ while 1
                     elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
+                        moveforward(droneObj, 'distance', 0.5);
                         right_cnt = 0;
                         left_cnt = 0;
                         up_cnt = 0;
