@@ -39,9 +39,8 @@ while 1
     bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));   % 보라색 검출
 
     % Image Preprocessing
-    try
-        bw1 = (0.5 < src_h)&(src_h < 0.75) & (0.15 < src_s)&(src_s < 1) & (0.25 < src_v)&(src_v < 1);   % 파란색 검출
-    catch
+    bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
+    if sum(bw1, 'all') == 0
         bw1 = double(zeros(size(src_hsv)));
     end
     
@@ -54,10 +53,40 @@ while 1
             end
         end
     end
+    
 
-    subplot(2, 2, 1), imshow(frame);
-    subplot(2, 2, 2), imshow(bw2);
-    subplot(2, 2, 3), imshow(bw_red);
-    subplot(2, 2, 4), imshow(bw_purple);
-    sum(bw2, 'all')
+    % Detecting Center
+    disp('Image Processing 2: Detecting Center');
+    count_pixel = 0;
+    center_row = 0;
+    center_col = 0;
+    for row = 1:rows
+        for col = 1:cols
+            if bw2(row, col) == 1
+                count_pixel = count_pixel + 1;
+                center_row = center_row + row;
+                center_col = center_col + col;    
+            end        
+        end
+    end
+    center_row = center_row / count_pixel;
+    center_col = center_col / count_pixel; 
+
+    try
+        subplot(2, 2, 1), imshow(frame);
+        subplot(2, 2, 2), imshow(frame); hold on;
+        plot(center_col, center_row, 'r*'); hold off;
+        subplot(2, 2, 3), imshow(bw1); hold on;
+        plot(center_col, center_row, 'r*'); hold off;
+        subplot(2, 2, 4), imshow(bw2); hold on;
+        plot(center_col, center_row, 'r*'); hold off;
+        clear center_col;
+        clear center_row;
+   catch exception
+        disp('There is no Circle Center Coordinates');
+        subplot(2, 2, 1), imshow(frame);
+        subplot(2, 2, 2), imshow(frame);
+        subplot(2, 2, 3), imshow(bw1);
+%         subplot(2, 2, 4), imshow(bw2);
+    end
 end

@@ -109,13 +109,13 @@ while 1
     
     try
         disp('Move Drone Very Carefully!!!');
-        if (-50 < moveRow && moveRow < 50) && (-50 < moveCol && moveCol < 50)
+        if (-100 < moveRow && moveRow < 100) && (-100 < moveCol && moveCol < 100)
             movedown(droneObj, 'distance', 0.2);
 %             moveforward(droneObj, 'distance', 1);                   % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
             
             % 여기가 잘 안되는 것 같음
             bw2_pix_num = sum(bw2, 'all')
-            if (180000 < bw2_pix_num) && (bw2_pix_num < 260000)         % 2단계
+            if (150000 < bw2_pix_num) && (bw2_pix_num < 300000)         % 2단계
                 moveforward(droneObj, 'distance', 1.4);
                 frame = snapshot(cameraObj);
                 src_hsv = rgb2hsv(frame);
@@ -149,16 +149,16 @@ while 1
                 moveforward(droneObj, 'distance', 0.5);                 % 맵에 따라서 1m단위로 링을 배치한다면 0.5, 아니라면 0.2 or 0.25
             end      
             
-        elseif moveRow < -50
+        elseif moveRow < -100
             disp('MoveUp');
             moveup(droneObj, 'Distance', 0.2)
-        elseif 50 < moveRow
+        elseif 100 < moveRow
             disp('MoveDown');
             movedown(droneObj, 'Distance', 0.2)
-        elseif moveCol < -50
+        elseif moveCol < -100
             disp('MoveLeft');
             moveleft(droneObj, 'Distance', 0.2)
-        elseif 50 < moveCol
+        elseif 100 < moveCol
             disp('MoveRight');
             moveright(droneObj, 'Distance', 0.2)
         end
