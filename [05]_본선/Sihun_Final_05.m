@@ -1,7 +1,4 @@
 clear()
-% HSV Threshold Green
-thdown_green = [0.25, 40/240, 80/240];
-thup_green = [0.40, 240/240, 240/240];
 % HSV Threshold Blue
 thdown_blue = [0.5, 0.25, 0.25];
 thup_blue = [0.75, 1, 1];

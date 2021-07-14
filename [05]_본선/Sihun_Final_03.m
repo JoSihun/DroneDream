@@ -89,4 +89,5 @@ while 1
         subplot(2, 2, 3), imshow(bw1);
 %         subplot(2, 2, 4), imshow(bw2);
     end
+    sum(bw2, 'all')
 end

@@ -24,6 +24,9 @@ while 1
     % HSV Convert
     disp('----------------- HSV Converting --------------------');
     frame = snapshot(cameraObj);
+    if sum(frame, 'all') == 0
+        continue
+    end
     src_hsv = rgb2hsv(frame);
     src_h = src_hsv(:,:,1);
     src_s = src_hsv(:,:,2);
@@ -32,9 +35,9 @@ while 1
 
     % Image Preprocessing
     bw1 = (0.5 < src_h) & (src_h < 0.75); % 파란색 검출 
-    if sum(bw1, 'all') == 0
-        bw1 = double(zeros(size(src_hsv)));
-    end
+%     if sum(bw1, 'all') == 0
+%         bw1 = double(zeros(size(src_hsv)));
+%     end
     
     % Move To Center
     sumUp = sum(bw1(1:rows/2, :), 'all');             % 상단 절반
@@ -108,25 +111,37 @@ while 1
         disp('Move Drone Very Carefully!!!');
         if (-100 < moveRow && moveRow < 100) && (-100 < moveCol && moveCol < 100)
             movedown(droneObj, 'distance', 0.2);
-            bw2_pix_num = sum(bw2, 'all')
-            if (150000 < bw2_pix_num) && (bw2_pix_num < 300000)
-                moveforward(droneObj, 'distance', 1.4);
-                frame = snapshot(cameraObj);
-                src_hsv = rgb2hsv(frame);
-                src_h = src_hsv(:,:,1);
-                src_s = src_hsv(:,:,2);
-                src_v = src_hsv(:,:,3);
+            bw2_pix_num = sum(bw2, 'all');
+            if 85000 < bw2_pix_num
+                moveforward(droneObj, 'distance', 2);
+                disp('Error Check Point 1');
+                while 1
+                    frame = snapshot(cameraObj);
+                    if sum(frame, 'all') == 0
+                        continue;
+                    else
+                        break;
+                    end
+                end
                 
+                src_hsv = rgb2hsv(frame);
+                src_h = src_hsv(:, :, 1);
+                src_s = src_hsv(:, :, 2);
+                src_v = src_hsv(:, :, 3);
+                
+                disp('Error Check Point 2');
                 % Image Preprocessing
-                bw_red = ((thdown_red1(1) < src_h) & (src_h < thup_red1(1))) ...        % 빨간색1범위 검출
-                       + ((thdown_red2(1) < src_h) & (src_h < thup_red2(1)));           % 빨간색2범위 검출
+                bw_red = (thdown_red1(1) < src_h & src_h < thup_red1(1)) ...        % 빨간색1범위 검출
+                       + (thdown_red2(1) < src_h & src_h < thup_red2(1));           % 빨간색2범위 검출
                 bw_purple = (thdown_purple(1) < src_h) & (src_h < thup_purple(1));      % 보라색범위 검출
                 
+                disp('Error Check Point 3');
                 subplot(2, 2, 1), imshow(frame);
                 subplot(2, 2, 2), imshow(frame);
                 subplot(2, 2, 3), imshow(bw_red);
                 subplot(2, 2, 4), imshow(bw_purple);
                 
+                disp('Error Check Point 4');
                 % 빨간색 혹은 보라색 검출할 때까지 전진
                 if (sum(bw_red, 'all') > 4000)                          % 빨간색이 검출되면
                     disp('RED Color Detected!!! Drone Turn Left');
@@ -138,7 +153,7 @@ while 1
                     land(droneObj);                                     % Landing
                     return;                                             % 프로그램 종료
                 end
-            elseif (bw2_pix_num < 180000)
+            elseif (bw2_pix_num < 85000)
                 moveforward(droneObj, 'distance', 0.5);                 % 맵에 따라서 1m단위로 링을 배치한다면 0.5, 아니라면 0.2 or 0.25
             end      
             
