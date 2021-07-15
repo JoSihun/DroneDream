@@ -183,7 +183,7 @@ while 1
             down_cnt = 0;
         else
             disp('Move Cromakey To Center');
-            moveback(droneObj, 'distance', 0.2);
+            moveback(droneObj, 'distance', 0.4);
 %             if up_cnt < 1
 %                 up_cnt = up_cnt + 1;
 %                 moveup(droneObj, 'distance', 0.2); %-----------------------------------------------------------------------
@@ -340,6 +340,10 @@ while 1
 end
 
 
+quad_right_cnt = 0;
+quad_left_cnt = 0;
+quad_up_cnt = 0;
+quad_down_cnt = 0;
 loopBreak = 0;
 while 1
     disp('2단계 루프 수행 중!');
@@ -365,6 +369,7 @@ while 1
             moveforward(droneObj, 'distance', 1);       % 맵에 따라서(크로마키의 앞뒤 위치에 따라서) 없애야 할 수도 있음
         end
         
+        % 파란색이 없을 때 주변탐색
         if right_cnt < 3
             right_cnt = right_cnt + 1;
             moveright(droneObj, 'distance', 0.5);
@@ -418,11 +423,6 @@ while 1
                 continue;
             end
         end
-    else
-        right_cnt = 0;
-        left_cnt = 0;
-        up_cnt = 0;
-        down_cnt = 0;
     end
     
     % Move To Center
@@ -430,7 +430,7 @@ while 1
     sumDown = sum(bw1(rows/2:end, :), 'all');         % 하단 절반
     sumLeft = sum(bw1(:, 1:cols/2), 'all');           % 좌측 절반
     sumRight = sum(bw1(:, cols/2:end), 'all');        % 우측 절반
-    
+
     if(sumUp == 0)                                  % 상단에 크로마키가 없으면
         movedown(droneObj, 'distance', 0.5);        % 하단으로 이동
     elseif(sumDown == 0)                            % 하단에 크로마키가 없으면
@@ -476,20 +476,20 @@ while 1
         else
             disp('Move Cromakey To Center');
 %             moveback(droneObj, 'distance', 0.2);
-            if up_cnt < 1
-                up_cnt = up_cnt + 1;
+            if quad_up_cnt < 1
+                quad_up_cnt = quad_up_cnt + 1;
                 moveup(droneObj, 'distance', 0.2);
                 continue;
-            elseif right_cnt < 1
-                right_cnt = right_cnt + 1;
+            elseif quad_right_cnt < 1
+                quad_right_cnt = quad_right_cnt + 1;
                 moveright(droneObj, 'distance', 0.2);
                 continue;
-            elseif down_cnt < 2
-                down_cnt = down_cnt + 1;
+            elseif quad_down_cnt < 2
+                quad_down_cnt = quad_down_cnt + 1;
                 movedown(droneObj, 'distance', 0.2);
                 continue;
-            elseif left_cnt < 2
-                left_cnt = left_cnt + 1;
+            elseif quad_left_cnt < 2
+                quad_left_cnt = quad_left_cnt + 1;
                 moveleft(droneObj, 'distance', 0.2);
                 continue;
             else
