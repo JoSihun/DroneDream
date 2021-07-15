@@ -259,7 +259,7 @@ while 1
                     elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
-                        moveforward(droneObj, 'distance', 1);
+                        moveforward(droneObj, 'distance', 1.2);
                         right_cnt = 0;
                         left_cnt = 0;
                         up_cnt = 0;
@@ -535,7 +535,7 @@ while 1
                     elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
-                        moveforward(droneObj, 'distance', 1);
+                        moveforward(droneObj, 'distance', 1.2);
                         activeForward = 1;
                         loopBreak = 1;
                         right_cnt = 0;
