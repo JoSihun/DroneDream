@@ -137,7 +137,7 @@ while 1
     if(sumUp == 0)                                  % 상단에 크로마키가 없으면
         movedown(droneObj, 'distance', 0.5);        % 하단으로 이동
     elseif(sumDown == 0)                            % 하단에 크로마키가 없으면
-        moveup(droneObj, 'distance', 0.5);          % 상단으로 이동
+        moveup(droneObj, 'distance', 0.5);          % 상단으로 이동 -----------------------------------------------------
     elseif(sumLeft == 0)                            % 좌측에 크로마키가 없으면
         moveright(droneObj, 'distance', 0.5);       % 우측으로 이동
     elseif(sumRight == 0)                           % 우측에 크로마키 없으면
@@ -183,27 +183,27 @@ while 1
             down_cnt = 0;
         else
             disp('Move Cromakey To Center');
-%             moveback(droneObj, 'distance', 0.2);
-            if up_cnt < 1
-                up_cnt = up_cnt + 1;
-                moveup(droneObj, 'distance', 0.2);
-                continue;
-            elseif right_cnt < 1
-                right_cnt = right_cnt + 1;
-                moveright(droneObj, 'distance', 0.2);
-                continue;
-            elseif down_cnt < 2
-                down_cnt = down_cnt + 1;
-                movedown(droneObj, 'distance', 0.2);
-                continue;
-            elseif left_cnt < 2
-                left_cnt = left_cnt + 1;
-                moveleft(droneObj, 'distance', 0.2);
-                continue;
-            else
-                moveup(droneObj, 'distance', 0.4);
-                continue;
-            end
+            moveback(droneObj, 'distance', 0.4);
+%             if up_cnt < 1
+%                 up_cnt = up_cnt + 1;
+%                 moveup(droneObj, 'distance', 0.2); %-----------------------------------------------------------------------
+%                 continue;
+%             elseif right_cnt < 1
+%                 right_cnt = right_cnt + 1;
+%                 moveright(droneObj, 'distance', 0.2);
+%                 continue;
+%             elseif down_cnt < 2
+%                 down_cnt = down_cnt + 1;
+%                 movedown(droneObj, 'distance', 0.2);
+%                 continue;
+%             elseif left_cnt < 2
+%                 left_cnt = left_cnt + 1;
+%                 moveleft(droneObj, 'distance', 0.2);
+%                 continue;
+%             else
+%                 moveup(droneObj, 'distance', 0.4);
+%                 continue;
+%             end
 %             if(sumUp > sumDown)                         % 상단 크로마키 > 하단 크로마키
 %                 disp('MoveUp');
 %                 moveup(droneObj, 'distance', 0.2);      % 상단으로 이동
