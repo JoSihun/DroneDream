@@ -252,11 +252,11 @@ while 1
 
                     % 빨간색 혹은 보라색 검출할 때까지 전진
                     sum(bw_red, 'all')
-                    if (sum(bw_purple, 'all') > 1500)                          % 보라색이 검출되면
+                    if (sum(bw_purple, 'all') > 1000)                          % 보라색이 검출되면
                         disp('Purple Color Detected!!! Drone Turn Left');
                         land(droneObj);                                     % Landing
                         return;                                             % 프로그램 종료
-                    elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
+                    elseif(sum(bw_red, 'all') > 1000)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
                         moveforward(droneObj, 'distance', 1.2);
@@ -528,11 +528,11 @@ while 1
                     subplot(2, 2, 4), imshow(bw_purple);
 
                     % 빨간색 혹은 보라색 검출할 때까지 전진
-                    if (sum(bw_purple, 'all') > 1500)                          % 보라색이 검출되면
+                    if (sum(bw_purple, 'all') > 1000)                          % 보라색이 검출되면
                         disp('Purple Color Detected!!! Drone Turn Left');
                         land(droneObj);                                     % Landing
                         return;                                             % 프로그램 종료
-                    elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
+                    elseif(sum(bw_red, 'all') > 1000)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
                         moveforward(droneObj, 'distance', 1.2);
@@ -807,11 +807,11 @@ while 1
                     subplot(2, 2, 4), imshow(bw_purple);
 
                     % 빨간색 혹은 보라색 검출할 때까지 전진
-                    if (sum(bw_purple, 'all') > 1500)                          % 보라색이 검출되면
+                    if (sum(bw_purple, 'all') > 1000)                          % 보라색이 검출되면
                         disp('Purple Color Detected!!! Drone Turn Left');
                         land(droneObj);                                     % Landing
                         return;                                             % 프로그램 종료
-                    elseif(sum(bw_red, 'all') > 1500)                       % 빨간색이 검출되면
+                    elseif(sum(bw_red, 'all') > 1000)                       % 빨간색이 검출되면
                         disp('RED Color Detected!!! Drone Landing');
                         turn(droneObj, deg2rad(-90));                       % Turn Left, 다음동작 크로마키 검출, 지난 링을 건드리지 않도록 일정거리 전진
                         moveforward(droneObj, 'distance', 0.5);
